@@ -32,6 +32,7 @@ public static void initNotesInTut(){
 			System.out.println("beat " + (i - 2) + ": " + notesInTutorial.get(notesInTutorial.size() - 1));
 		}
 		
+		
 	}
 	
 	public static void initNotesInSong(){
@@ -49,8 +50,8 @@ public static void initNotesInTut(){
 		String line = null;
 	    try {
 			while ((line = reader.readLine()) != null){
-				notesInSong.add(Long.parseLong(line));
 				System.out.println(line);
+				notesInSong.add(Long.parseLong(line));
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

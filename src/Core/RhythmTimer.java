@@ -6,10 +6,13 @@ public class RhythmTimer extends Thread{
 
 	
 	private SongPlayer song;
+	private Main main;
 	private long songTime;
-	public RhythmTimer(SongPlayer song){
+	
+	public RhythmTimer(SongPlayer song, Main main){
 		this.song = song;
 		songTime = 0;
+		this.main = main;
 	}
 	
 	public void startSong(){
@@ -32,13 +35,17 @@ public class RhythmTimer extends Thread{
 		while ((songPos = song.getSongPos()) != song.getSongLen()){
 			
 			
-			songTime+= 5;
+			songTime = songPos;
+			
+			//main.update();
 			if (!(songPos + 5 >= songTime) && !(songPos - 5 <= songTime)){
 				songTime = songPos;
 			}
 			
+			
+			
 			try {
-				RhythmTimer.sleep(5);
+				RhythmTimer.sleep(2);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

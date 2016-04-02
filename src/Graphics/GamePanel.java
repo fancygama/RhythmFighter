@@ -66,6 +66,12 @@ public class GamePanel extends JPanel {
 		this.repaint();
 	}
 	
+	public void flashBackground(){
+		Graphics g = panelImage.getGraphics();
+		g.setColor(Color.GRAY);
+		g.fillRect(0, 0, width, height);
+	}
+	
 	public BufferedImage getImage()
 	{
 		return panelImage;
@@ -80,15 +86,16 @@ public class GamePanel extends JPanel {
 		for (int i = 0; i < notesOnScreen.size(); i++){
 			
 			long notePos = notesOnScreen.get(i);
-			System.out.println("NotePos: " + notePos);
-			int pixelsToTravel = (width/2 - width/20);
+			//System.out.print("NotePos: " + notePos);
 			
+			int xVal = (int) (((double)(songPos - (notePos - 1000))/1000.0) * (width - width/20 - (width/2)) + width/2);
+			//System.out.println(" Percent of time passed: " + ((double)(songPos - (notePos - 1000))/1000.0));
 			Graphics g = panelImage.getGraphics();
 			g.setColor(Color.BLUE);
-			g.fillRect((int)(pixelsToTravel/(double)(notePos/(double)(notePos - songPos))), this.height/10, 10, this.height/10);
-			System.out.println("Beat Now at X: " + (int)(pixelsToTravel/(double)(notePos/(double)(notePos - songPos))));
-			g.setColor(Color.RED);
-			g.fillRect(this.width - (int)(pixelsToTravel/(double)(notePos/(double)(notePos - songPos))), this.height/10, 10, this.height/10);
+			g.fillRect(xVal, this.height/10, 10, this.height/10);
+			//System.out.println("Beat Now at X: " + xVal);
+			//g.setColor(Color.RED);
+			//g.fillRect(width - (xVal - width), this.height/10, 10, this.height/10);
 			
 			//notesOnScreen.set(i, notesOnScreen.get(i) + pixPerUpdate);
 			//I think that's it...

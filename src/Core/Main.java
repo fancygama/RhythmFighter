@@ -32,6 +32,7 @@ public class Main extends Thread{
 	
 	public ArrayList<Long> beatsInSong;
 	private int currBeat = 0;
+	private int beatOffset = 1;
 	
 	//used by InListener to establish what should happen when a key is hit.
 	public void playerAttacked(int player, int move){
@@ -50,7 +51,7 @@ public class Main extends Thread{
 	public void startUp(){	//the startup process for the game
 		
 		//set up the audio stuff
-		timer = new RhythmTimer(new SongPlayer("src/Resources/Song.wav"));
+		timer = new RhythmTimer(new SongPlayer("src/Resources/Song.wav"), this);
 		SongPlayer.initNotesInSong();
 		beatsInSong = SongPlayer.notesInSong;
 		
@@ -84,7 +85,7 @@ public class Main extends Thread{
 	public void startUpTut(){
 		
 		//set up the audio stuff
-				timer = new RhythmTimer(new SongPlayer("src/Resources/Tutorial.wav"));
+				timer = new RhythmTimer(new SongPlayer("src/Resources/Tutorial.wav"), this);
 				SongPlayer.initNotesInTut();
 				beatsInSong = SongPlayer.notesInTutorial;
 				tutorialOn = true;
@@ -115,21 +116,72 @@ public class Main extends Thread{
 				frame.pack();
 		
 	}
+	
+	public void update(){
+
+		songPos = timer.getSongPos();
+		//This should be implemented once the array is set up
+		panel.reset();
+
+	if (beatsInSong.size() != currBeat - 1){
+	
+		  if (songPos - 100 <= beatsInSong.get(currBeat) && songPos + 100 >= beatsInSong.get(currBeat)){	//if the song is within +/- 100 ms of the next note
+		  		p1CanAtk = true;	//the players can use moves
+		  		p2CanAtk = true;
+		  		if (songPos - 17 <= beatsInSong.get(currBeat) && songPos + 17 >= beatsInSong.get(currBeat)){	//if the song is within +/- 10 ms of the next note
+		  			//A beat is happening now!
+		  			System.out.println(" Beat happened");
+		  			//panel.flashBackground();
+		  			panel.getNotesOnScreen().remove(0);
+		  			System.out.println("removed at " + songPos);
+		  			currBeat++;
+		  			beatOffset = 1;
+
+		  		}
+		  		
+		  }
+		  
+		  if (songPos + 20 >= beatsInSong.get(currBeat + 1) - 1000 && songPos - 20 <= beatsInSong.get(currBeat + 1) - 1000){	//adds a new beat to the panel if it's time
+		  		//panel.getNotesOnScreen().add(frameWidth/2);
+			  	panel.getNotesOnScreen().add(beatsInSong.get(currBeat + 1));
+		  		System.out.println("added at " + songPos + " compared to " + timer.getSongPos());
+		  		beatOffset++;
+				//System.out.println("SongPos: " + songPos);
+				//System.out.println("Current: " + beatsInSong.get(currBeat));
+		  			//or something like that
+		  	}
+	} else if (songPos >= timer.getSongLen()){
+		gameDone = true;
+		return;
+	}
+	 
+	
+	//Update graphics and stuff here
+	  //panel.drawBackground();		//for once we have a background
+	  panel.drawNoteLanes();
+	  panel.updateNotes(songPos);
+	  //and then animation updates etc etc
+	  
+	  System.out.println("This iteration started at " + songPos + " and ended at " + timer.getSongPos());
+		
+	}
 
 	
 	public void loop(){
 		
 		songPos = timer.getSongPos();
 			//This should be implemented once the array is set up
-		
-		if (beatsInSong.size() != 0){
+		panel.reset();
+
+		if (beatsInSong.size() != currBeat - 1){
 		
 			  if (songPos - 100 <= beatsInSong.get(currBeat) && songPos + 100 >= beatsInSong.get(currBeat)){	//if the song is within +/- 100 ms of the next note
 			  		p1CanAtk = true;	//the players can use moves
 			  		p2CanAtk = true;
-			  		if (songPos - 10 <= beatsInSong.get(currBeat) && songPos + 10 >= beatsInSong.get(currBeat)){	//if the song is within +/- 10 ms of the next note
+			  		if (songPos - 15 <= beatsInSong.get(currBeat) && songPos + 15 >= beatsInSong.get(currBeat)){	//if the song is within +/- 10 ms of the next note
 			  			//A beat is happening now!
 			  			System.out.println(" Beat happened");
+			  			panel.flashBackground();
 			  			currBeat++;
 			  			if (panel.getNotesOnScreen().size() != 0){
 			  			panel.getNotesOnScreen().remove(0);
@@ -154,7 +206,6 @@ public class Main extends Thread{
 		 
 		
 		//Update graphics and stuff here
-		  panel.reset();
 		  //panel.drawBackground();		//for once we have a background
 		  panel.drawNoteLanes();
 		  panel.updateNotes(songPos);
@@ -167,19 +218,14 @@ public class Main extends Thread{
 	@Override
 	public void run(){
 		
-		startUpTut();
-		
+		//startUpTut();
+		startUp();
+		Timer newTimer = new Timer(16, new RhythmListener(this));
+		newTimer.setInitialDelay(0);
+		newTimer.start();
 		timer.start();
 		System.out.println("Start time: " + timer.getSongPos());
-		while(!gameDone){
-			loop();
-			
-			try {
-				Main.sleep(10);	//an arbitrary number of ms between each iteration of loop. might cause lag...
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		
 		
 		
 	}
