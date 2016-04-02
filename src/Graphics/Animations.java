@@ -16,7 +16,7 @@ public class Animations {
 		BufferedImage b = panel.getImage();
 		Graphics2D g = (Graphics2D) b.getGraphics();
 		g.setStroke(new BasicStroke(5));
-		g.setColor(Color.BLACK);
+		g.setColor(Color.WHITE);
 		//stage = 1.5*Math.PI;
 		double tempStage = stage;
 		if (stage <= 1/3 * Math.PI) stage *= 5; // Does the extension 3x as fast
