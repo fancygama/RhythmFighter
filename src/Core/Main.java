@@ -31,6 +31,7 @@ public class Main {
 		frame.add(panel);
 		//load it up!
 		frame.setVisible(true);
+		panel.drawALine();
 		frame.validate();
 		frame.pack();
 		
