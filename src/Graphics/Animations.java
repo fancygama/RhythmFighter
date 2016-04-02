@@ -2,22 +2,25 @@ package Graphics;
 
 import java.awt.*;
 import java.awt.image.*;
+import java.io.File;
+import java.io.IOException;
 import java.lang.Math;
 
 import javax.swing.JFrame;
 
 public class Animations {
-	static double length = 75;
-	static double xSpeed = 200;
-	static int xOff = 825;
-	static int yOff = 600;
+	static double ovrLength = 75 / (Math.sqrt(1902*1902+1033*1033));
+	static double ovrXOff = 825/1902.0;
+	static double ovrYOff = 600/1033.0;
 	public static void punch(GamePanel panel, double stage, boolean p1, boolean curTurn)
 	{
 		BufferedImage b = panel.getImage();
+		double length = ovrLength * (Math.sqrt(b.getHeight()*b.getHeight()+b.getWidth()*b.getWidth()));
+		double xOff = b.getWidth() * ovrXOff;
+		double yOff = b.getHeight() * ovrYOff;
 		Graphics2D g = (Graphics2D) b.getGraphics();
-		g.setStroke(new BasicStroke(5));
-		g.setColor(Color.BLACK);
-		//stage = 1.5*Math.PI;
+		g.setStroke(new BasicStroke(3));
+		g.setColor(Color.white);
 		double tempStage = stage;
 		if (stage <= 1/3 * Math.PI) stage *= 5; // Does the extension 3x as fast
 		else if (stage <= 1*Math.PI) stage = 2*Math.PI; //So it can pause here
@@ -53,13 +56,12 @@ public class Animations {
 		xCoords[7] = (int)(xCoords[6] + .5*Math.sqrt(2.0)* length);
 		yCoords[7] = (int)(yCoords[6] - .5*Math.sqrt(2.0)*length);
 		int powDiam = 0;
-		g.setFont(new Font("TimesRoman", Font.PLAIN, 0));
+		g.setFont(new Font("comic", Font.PLAIN, 0));
 		if (!curTurn)
 		{
 			if (tempStage >= Math.PI)
 			{
-				double curLength = length * (tempStage-Math.PI
-			);
+				double curLength = length * (tempStage-Math.PI);
 				xCoords[4] -= .25* curLength;
 				xCoords[5] -= .4* curLength;
 				xCoords[2] -=  .4*curLength;
@@ -112,9 +114,12 @@ public class Animations {
 	public static void kick(GamePanel panel, double stage, boolean p1, boolean curTurn)
 	{
 		BufferedImage b = panel.getImage();
+		double length = ovrLength * (Math.sqrt(b.getHeight()*b.getHeight()+b.getWidth()*b.getWidth()));
+		double xOff = b.getWidth() * ovrXOff;
+		double yOff = b.getHeight() * ovrYOff;
 		Graphics2D g = (Graphics2D) b.getGraphics();
-		g.setStroke(new BasicStroke(5));
-		g.setColor(Color.BLACK);
+		g.setStroke(new BasicStroke(3));
+		g.setColor(Color.white);
 		//stage = 1.5*Math.PI;
 		double tempStage = stage;
 		if (stage <= 1/3 * Math.PI) stage *= 5; // Does the extension 3x as fast
@@ -126,8 +131,8 @@ public class Animations {
 		int[] yCoords = new int[20];
 		xCoords[2] = (int)(xOff+1.5*length*Math.abs(stage-Math.PI));
 		yCoords[2] = (int)(yOff);
-		xCoords[3] = (int)(length*Math.sin(stage)+xCoords[2]);
-		yCoords[3] = (int)(length*Math.cos(stage)+yCoords[2]);
+		xCoords[3] = (int)(xCoords[2]+length);
+		yCoords[3] = (int)(yCoords[2]-length);
 		xCoords[4] = (int)(xCoords[2]-length);
 		yCoords[4] = yCoords[2];
 		xCoords[1] = xCoords[4];
@@ -138,18 +143,22 @@ public class Animations {
 		yCoords[9] = (int)(yCoords[8] +  1.25 *  length);
 		xCoords[10] = (int)(xCoords[9] + .25 * length);
 		yCoords[10] = yCoords[9];
-		xCoords[11] = (int)(xCoords[2] - .75* length);
-		yCoords[11] = (int)(yCoords[1] +  1.25 * length);
-		xCoords[12] = xCoords[11];
+		xCoords[11] = (int)(xCoords[2] - .75* length + .25 * length*Math.abs(stage-.75*Math.PI));
+		yCoords[11] = (int)(yCoords[1] +  1.25 * length - 1.5 * length*Math.abs(stage-.75*Math.PI));
+		xCoords[12] = (int)(xCoords[11]+ 1.25 * length*Math.abs(stage-.75*Math.PI));
 		yCoords[12] = (int)(yCoords[11] +  1.25* length);
 		xCoords[13] = (int)(xCoords[12] + .25 * length);
-		yCoords[13] = yCoords[12];
+		yCoords[13] = (int)(yCoords[12]- .25 * length*Math.abs(stage-.75*Math.PI));
 		xCoords[5] = xCoords[4];
 		yCoords[5] = (int)(yCoords[4]-.5*length);
 		xCoords[6] = (int)(xCoords[4]+.5*Math.sqrt(2.0)*length);
 		yCoords[6] = (int)(yCoords[4]-.25*Math.sqrt(2.0)*length);
 		xCoords[7] = (int)(xCoords[6] + .5*Math.sqrt(2.0)* length);
 		yCoords[7] = (int)(yCoords[6] - .5*Math.sqrt(2.0)*length);
+		xCoords[2] -= .5*length*Math.abs(stage-Math.PI);
+		xCoords[3] -= .75*length*Math.abs(stage-Math.PI);
+		xCoords[6] -= .25*length*Math.abs(stage-Math.PI);
+		xCoords[7] -= .5*length*Math.abs(stage-Math.PI);
 		int powDiam = 0;
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 0));
 		if (!curTurn)
@@ -158,18 +167,23 @@ public class Animations {
 			{
 				double curLength = length * (tempStage-Math.PI
 			);
-				xCoords[4] -= .25* curLength;
-				xCoords[5] -= .4* curLength;
-				xCoords[2] -=  .4*curLength;
-				xCoords[3] -=  .5 *curLength;
-				xCoords[6] -=  .4 *curLength;
-				xCoords[7] -= .5* curLength;
-				yCoords[2] -=  .15*curLength;
-				yCoords[3] -=  .4 *curLength;
-				yCoords[6] -=  .15 *curLength;
-				yCoords[7] -= .4* curLength;
+				xCoords[4] += .25* curLength;
+				xCoords[5] += .4* curLength;
+				yCoords[4] += .1* curLength;
+				yCoords[5] += .15* curLength;
+				xCoords[2] += .1 * curLength;
+				xCoords[3] += .1 * curLength;
+				xCoords[6] += .15 * curLength;
+				xCoords[7] += .15 * curLength;
+				yCoords[2] += .15 * curLength;
+				yCoords[3] += .15 * curLength;
+				yCoords[6] += .25 * curLength;
+				yCoords[7] += .25 * curLength;
+				xCoords[11] -= .125 * curLength;
+				xCoords[12] -= .125 * curLength;
+				xCoords[13] -= .125 * curLength;
 				powDiam += curLength;
-				g.setFont(new Font("CourierNew", Font.PLAIN, (int)(curLength/10)));
+				g.setFont(new Font("TimesRoman", Font.PLAIN, (int)(curLength/10)));
 				}
 		}
 		if (!curTurn)
@@ -202,13 +216,20 @@ public class Animations {
 		if (!curTurn)
 		{
 			g.drawOval((int)(xCoords[1]-(.5*powDiam)), (int)(yCoords[1]-.5*.5*powDiam - 4 * length), (int)(powDiam), (int)(.5*powDiam));
-			g.drawChars("POW!".toCharArray(), 0,4,(int)(xCoords[1]-.5*length),(int)(yCoords[1]-4 * length));
+			g.drawChars("WHAP!".toCharArray(), 0,5,(int)(xCoords[1]-.5*length),(int)(yCoords[1]-4 * length));
 		}
 		panel.repaint();
 	}
 	
-	public static void main(String[] args)
+	public static void main(String[] args) throws FontFormatException, IOException
 	{
+		try {
+		     GraphicsEnvironment ge = 
+		         GraphicsEnvironment.getLocalGraphicsEnvironment();
+		     ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("comic.ttf")));
+		} catch (FontFormatException e) {
+		     //Handle exception
+		}
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		int frameWidth = gd.getDisplayMode().getWidth();
 		int frameHeight = gd.getDisplayMode().getHeight();
@@ -228,8 +249,8 @@ public class Animations {
 			{
 				double stage = 2 * Math.PI / precision * i;
 				panel.reset();
-				punch(panel,stage,false,true);
-				punch(panel,stage,false,false);
+				kick(panel,stage,true,true);
+				kick(panel,stage,true,false);
 				try {
 					Thread.sleep(33);
 				} catch (InterruptedException e) {
@@ -242,8 +263,8 @@ public class Animations {
 			{
 				double stage = 2 * Math.PI / precision * i;
 				panel.reset();
-				punch(panel,0,true,true);
-				punch(panel,0,true,false);
+				kick(panel,0,true,true);
+				kick(panel,0,true,false);
 				try {
 					Thread.sleep(33);
 				} catch (InterruptedException e) {

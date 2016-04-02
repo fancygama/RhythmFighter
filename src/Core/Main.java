@@ -32,7 +32,7 @@ public class Main extends Thread{
 	
 	public ArrayList<Long> beatsInSong;
 	private int currBeat = 0;
-	private int beatOffset = 1;
+	private int currBeatAdd = 0;
 	
 	//used by InListener to establish what should happen when a key is hit.
 	public void playerAttacked(int player, int move){
@@ -69,7 +69,7 @@ public class Main extends Thread{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(frameWidth,frameHeight));
 		//add in the panel to display everything
-		GamePanel panel = new GamePanel(frameWidth, frameHeight);
+		panel = new GamePanel(frameWidth, frameHeight);
 		frame.add(panel);
 		frame.addKeyListener(new InListener(this));
 		panel.drawNoteLanes();
@@ -128,24 +128,28 @@ public class Main extends Thread{
 		  if (songPos - 100 <= beatsInSong.get(currBeat) && songPos + 100 >= beatsInSong.get(currBeat)){	//if the song is within +/- 100 ms of the next note
 		  		p1CanAtk = true;	//the players can use moves
 		  		p2CanAtk = true;
-		  		if (songPos - 17 <= beatsInSong.get(currBeat) && songPos + 17 >= beatsInSong.get(currBeat)){	//if the song is within +/- 10 ms of the next note
-		  			//A beat is happening now!
-		  			System.out.println(" Beat happened");
-		  			//panel.flashBackground();
-		  			panel.getNotesOnScreen().remove(0);
-		  			System.out.println("removed at " + songPos);
-		  			currBeat++;
-		  			beatOffset = 1;
-
-		  		}
+		  		
 		  		
 		  }
+		  System.out.print("Evaluating for " + beatsInSong.get(currBeat) + ". ");
+		  if (songPos - 20 >= beatsInSong.get(currBeat) /*&& songPos + 20 >= beatsInSong.get(currBeat)*/){	//if the song is within +/- 10 ms of the next note
+	  			//A beat is happening now!
+	  			System.out.println(" Beat happened");
+	  			//panel.flashBackground();
+	  			if (panel.getNotesOnScreen().size() != 0){
+	  				panel.getNotesOnScreen().remove(0);
+	  			System.out.println("removed at " + songPos);
+	  			}
+	  			currBeat++;
+
+	  		}
 		  
-		  if (songPos + 20 >= beatsInSong.get(currBeat + 1) - 1000 && songPos - 20 <= beatsInSong.get(currBeat + 1) - 1000){	//adds a new beat to the panel if it's time
-		  		//panel.getNotesOnScreen().add(frameWidth/2);
-			  	panel.getNotesOnScreen().add(beatsInSong.get(currBeat + 1));
-		  		System.out.println("added at " + songPos + " compared to " + timer.getSongPos());
-		  		beatOffset++;
+		  if (songPos - 20 >= beatsInSong.get(currBeatAdd) - 1000 /*&& songPos - 20 <= beatsInSong.get(currBeatAdd) - 1000*/){	//adds a new beat to the panel if it's time
+		  		
+			  //panel.getNotesOnScreen().add(frameWidth/2);
+			  	panel.getNotesOnScreen().add(beatsInSong.get(currBeatAdd));
+		  		System.out.println("added at " + songPos + " compared to " + timer.getSongPos() + ". Added for " + beatsInSong.get(currBeatAdd));
+		  		currBeatAdd++;
 				//System.out.println("SongPos: " + songPos);
 				//System.out.println("Current: " + beatsInSong.get(currBeat));
 		  			//or something like that
@@ -218,8 +222,8 @@ public class Main extends Thread{
 	@Override
 	public void run(){
 		
-		startUpTut();
-		//startUp();
+		//startUpTut();
+		startUp();
 		Timer newTimer = new Timer(16, new RhythmListener(this));
 		newTimer.setInitialDelay(0);
 		newTimer.start();
