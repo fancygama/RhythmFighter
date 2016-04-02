@@ -227,7 +227,7 @@ public class Animations {
 			for (int i = 1; i <= precision ; i++)
 			{
 				double stage = 2 * Math.PI / precision * i;
-				panel.reset(panel.getImage().getGraphics());
+				panel.reset();
 				punch(panel,stage,false,true);
 				punch(panel,stage,false,false);
 				try {
@@ -241,7 +241,7 @@ public class Animations {
 			for (int i = 1; i <= precision ; i++)
 			{
 				double stage = 2 * Math.PI / precision * i;
-				panel.reset(panel.getImage().getGraphics());
+				panel.reset();
 				punch(panel,0,true,true);
 				punch(panel,0,true,false);
 				try {
