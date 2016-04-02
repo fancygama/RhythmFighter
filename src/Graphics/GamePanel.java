@@ -42,6 +42,20 @@ public class GamePanel extends JPanel {
 		g.setColor(temp);
 	}
 	
+	public void drawNoteLanes(){
+		Graphics g = panelImage.getGraphics();
+		Graphics2D gg = (Graphics2D) g;
+		gg.setStroke(new BasicStroke(5));
+		gg.setColor(Color.white);
+		gg.drawLine(0, this.height/10, this.width, this.height/10);
+		gg.drawLine(0, this.height/10*2, this.width, this.height/10*2);
+		gg.drawLine(this.width/2, this.height/10, this.width/2, this.height/10*2);
+		gg.setColor(Color.red);
+		gg.drawRect(this.width/20, this.height/10, 5, this.height/10);
+		gg.drawRect(this.width - this.width/20, this.height/10, 5, this.height/10);
+		this.repaint();
+	}
+	
 	public BufferedImage getImage()
 	{
 		return panelImage;
