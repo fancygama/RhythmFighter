@@ -218,8 +218,8 @@ public class Main extends Thread{
 	@Override
 	public void run(){
 		
-		//startUpTut();
-		startUp();
+		startUpTut();
+		//startUp();
 		Timer newTimer = new Timer(16, new RhythmListener(this));
 		newTimer.setInitialDelay(0);
 		newTimer.start();

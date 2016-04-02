@@ -49,7 +49,7 @@ public class GamePanel extends JPanel {
 		//g.fillRect(0, 0, width, height);
 		//g.setColor(temp);
 		panelImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
-		panelImage.getGraphics().fillRect(0, 0, width, height);
+		//panelImage.getGraphics().fillRect(0, 0, width, height);
 	}
 	
 	public void drawNoteLanes(){
