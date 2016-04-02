@@ -14,7 +14,7 @@ public class GamePanel extends JPanel {
 
 	private BufferedImage panelImage;
 	private int width, height;
-	private ArrayList<Integer> notesOnScreen;
+	private ArrayList<Long> notesOnScreen;
 	private int pixPerUpdate;
 	
 	public GamePanel(int width, int height){
@@ -22,7 +22,7 @@ public class GamePanel extends JPanel {
 		this.setBounds(0,0,width,height);	//this just forces the panel to be at this place.
 		this.width = width;
 		this.height = height;
-		notesOnScreen = new ArrayList<Integer>();
+		notesOnScreen = new ArrayList<Long>();
 		init();
 	}
 	
@@ -30,6 +30,9 @@ public class GamePanel extends JPanel {
 		
 		this.setOpaque(true);
 		panelImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);	//init the bufferedimage
+		System.out.println(width/2 - width/20);
+		pixPerUpdate = (int) (((double)(width/2 - width/20) / 1000.0) * 10);
+		
 		
 	}
 	
@@ -40,11 +43,13 @@ public class GamePanel extends JPanel {
 	}
 	
 	public void reset(){
-		Graphics g = panelImage.getGraphics();
-		Color temp = g.getColor();
-		g.setColor(Color.white);
-		g.fillRect(0, 0, width, height);
-		g.setColor(temp);
+		//Graphics g = panelImage.getGraphics();
+		//Color temp = g.getColor();
+		//g.setColor(Color.white);
+		//g.fillRect(0, 0, width, height);
+		//g.setColor(temp);
+		panelImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
+		
 	}
 	
 	public void drawNoteLanes(){
@@ -66,21 +71,26 @@ public class GamePanel extends JPanel {
 		return panelImage;
 	}
 	
-	public ArrayList<Integer> getNotesOnScreen(){
+	public ArrayList<Long> getNotesOnScreen(){
 		return notesOnScreen;
 	}
 	
-	public void updateNotes(){
+	public void updateNotes(long songPos){
 		
 		for (int i = 0; i < notesOnScreen.size(); i++){
 			
-			notesOnScreen.set(i, notesOnScreen.get(i) + pixPerUpdate);
+			long notePos = notesOnScreen.get(i);
+			System.out.println("NotePos: " + notePos);
+			int pixelsToTravel = (width/2 - width/20);
+			
 			Graphics g = panelImage.getGraphics();
 			g.setColor(Color.BLUE);
-			g.fillRect(notesOnScreen.get(i), this.height/10, 10, this.height/10);
-			
+			g.fillRect((int)(pixelsToTravel/(double)(notePos/(double)(notePos - songPos))), this.height/10, 10, this.height/10);
+			System.out.println("Beat Now at X: " + (int)(pixelsToTravel/(double)(notePos/(double)(notePos - songPos))));
 			g.setColor(Color.RED);
-			g.fillRect((notesOnScreen.get(i) - this.width/2) - this.width/2, this.height/10, 10, this.height/10);
+			g.fillRect(this.width - (int)(pixelsToTravel/(double)(notePos/(double)(notePos - songPos))), this.height/10, 10, this.height/10);
+			
+			//notesOnScreen.set(i, notesOnScreen.get(i) + pixPerUpdate);
 			//I think that's it...
 		}
 		
