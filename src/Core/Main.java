@@ -1,10 +1,10 @@
 package Core;
+import javax.swing.*;
 
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println("blah2");
-		System.out.println("Holla holla");
+		JFrame frame = new JFrame();
 	}
 
 }
