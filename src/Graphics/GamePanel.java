@@ -30,7 +30,6 @@ public class GamePanel extends JPanel {
 		
 		this.setOpaque(true);
 		panelImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);	//init the bufferedimage
-		System.out.println(width/2 - width/20);
 		pixPerUpdate = (int) (((double)(width/2 - width/20) / 1000.0) * 10);
 		
 		
@@ -94,8 +93,8 @@ public class GamePanel extends JPanel {
 			g.setColor(Color.BLUE);
 			g.fillRect(xVal, this.height/10, 10, this.height/10);
 			//System.out.println("Beat Now at X: " + xVal);
-			//g.setColor(Color.RED);
-			//g.fillRect(width - (xVal - width), this.height/10, 10, this.height/10);
+			g.setColor(Color.RED);
+			g.fillRect(width - (xVal), this.height/10, 10, this.height/10);
 			
 			//notesOnScreen.set(i, notesOnScreen.get(i) + pixPerUpdate);
 			//I think that's it...
