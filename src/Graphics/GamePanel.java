@@ -42,18 +42,9 @@ public class GamePanel extends JPanel {
 		g.setColor(temp);
 	}
 	
-	public void drawALine(){	//just an example
-		
-		Graphics g = panelImage.getGraphics();	//graphics of the panel.
-		Graphics2D gg = (Graphics2D) g;	//this lets you set the width of the line.
-		gg.setStroke(new BasicStroke(5));	//sets the width of the line. 5 is an arbitrary number.
-		gg.setColor(Color.RED);	//set color of paintbrush
-		g.drawLine(50, 50, 200, 200);	//paint a line from 50,50 to 200,200
-		this.repaint();	//basically calls paintComponent which pastes this on the screen.
-		reset(g);
-		g.drawLine(700, 50, 200, 200);	//paint a line from 50,50 to 200,200
-		this.repaint();
-		
+	public BufferedImage getImage()
+	{
+		return panelImage;
 	}
 	
 	
