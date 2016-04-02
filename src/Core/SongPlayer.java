@@ -15,7 +15,7 @@ public class SongPlayer {
 
 	public static ArrayList<Long> notesInSong;
 	
-	private String songPath = "src/resources/Weekend.wav";	//CHANGE THIS
+	private String songPath = "src/Resources/Song.wav";	//CHANGE THIS
 	private AudioInputStream audioIn;
 	private Clip songClip;
 	

@@ -63,11 +63,12 @@ public class Main extends Thread{
 		//add in the panel to display everything
 		GamePanel panel = new GamePanel(frameWidth, frameHeight);
 		frame.add(panel);
-		panel.addKeyListener(new InListener(this));
+		frame.addKeyListener(new InListener(this));
+		panel.drawNoteLanes();
 		//load it up!
-		frame.setVisible(true);
 		//panel.drawALine();	//this was just a test thing anyway
 		frame.validate();
+		frame.setVisible(true);
 		frame.pack();
 		
 		
