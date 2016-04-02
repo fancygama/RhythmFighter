@@ -3,7 +3,7 @@ package Core;
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println("blah");
+		System.out.println("blah2");
 		System.out.println("Holla holla");
 	}
 
