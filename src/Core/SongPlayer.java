@@ -14,12 +14,13 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class SongPlayer {
 
 	public static ArrayList<Long> notesInSong;
+	public static ArrayList<Long> notesInTutorial;
 	
-	private String songPath = "src/Resources/Song.wav";	//CHANGE THIS
+	private String songPath = "src/Resources/Song.wav";
 	private AudioInputStream audioIn;
 	private Clip songClip;
 	
-	public SongPlayer(){
+	public SongPlayer(String songPath){
 		
 		
 		try {
@@ -35,10 +36,16 @@ public class SongPlayer {
 	
 	public void startSong(){
 		songClip.start();
+		
 	}
+
 	
 	public long getSongPos(){
 		return songClip.getMicrosecondPosition() / 1000;
+	}
+	
+	public long getSongLen(){
+		return songClip.getMicrosecondLength() / 1000;
 	}
 	
 }

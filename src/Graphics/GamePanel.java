@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -13,12 +14,15 @@ public class GamePanel extends JPanel {
 
 	private BufferedImage panelImage;
 	private int width, height;
+	private ArrayList<Integer> notesOnScreen;
+	private int pixPerUpdate;
 	
 	public GamePanel(int width, int height){
 		
 		this.setBounds(0,0,width,height);	//this just forces the panel to be at this place.
 		this.width = width;
 		this.height = height;
+		notesOnScreen = new ArrayList<Integer>();
 		init();
 	}
 	
@@ -35,9 +39,10 @@ public class GamePanel extends JPanel {
 		
 	}
 	
-	public void reset(Graphics g){
+	public void reset(){
+		Graphics g = panelImage.getGraphics();
 		Color temp = g.getColor();
-		g.setColor(Color.black);
+		g.setColor(Color.white);
 		g.fillRect(0, 0, width, height);
 		g.setColor(temp);
 	}
@@ -59,6 +64,27 @@ public class GamePanel extends JPanel {
 	public BufferedImage getImage()
 	{
 		return panelImage;
+	}
+	
+	public ArrayList<Integer> getNotesOnScreen(){
+		return notesOnScreen;
+	}
+	
+	public void updateNotes(){
+		
+		for (int i = 0; i < notesOnScreen.size(); i++){
+			
+			notesOnScreen.set(i, notesOnScreen.get(i) + pixPerUpdate);
+			Graphics g = panelImage.getGraphics();
+			g.setColor(Color.BLUE);
+			g.fillRect(notesOnScreen.get(i), this.height/10, 10, this.height/10);
+			
+			g.setColor(Color.RED);
+			g.fillRect((notesOnScreen.get(i) - this.width/2) - this.width/2, this.height/10, 10, this.height/10);
+			//I think that's it...
+		}
+		
+		
 	}
 	
 	
