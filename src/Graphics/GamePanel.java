@@ -163,7 +163,7 @@ public class GamePanel extends JPanel {
 		g.drawString(p2Score, width - width/10, 3*height/10 + height/20);
 		} else {
 			g.drawString(p1Score, width/10, height - height/10);
-			g.drawString(p2Score, width - width/10, height - height/10);
+			g.drawString(p2Score, width - width/8, height - height/10);
 		}
 	}
 	
