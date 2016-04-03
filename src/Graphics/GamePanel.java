@@ -231,7 +231,7 @@ public class GamePanel extends JPanel {
 		theforceButton.setFocusable(false);
 		theforceButton.setContentAreaFilled(false);
 		theforceButton.setBorderPainted(false);
-		theforceButton.setBounds(width/2 - width/8, height/3, width/4, height/6);
+		theforceButton.setBounds(width/2 - width/8, height/3 + height/6, width/4, height/6);
 		theforceButton.setIcon(new ImageIcon(theforceImage));
 		theforceButton.setPressedIcon(new ImageIcon(theforceDepressed));
 		theforceButton.setOpaque(false);
@@ -243,7 +243,7 @@ public class GamePanel extends JPanel {
 		cherrypepsiButton.setFocusable(false);
 		cherrypepsiButton.setContentAreaFilled(false);
 		cherrypepsiButton.setBorderPainted(false);
-		cherrypepsiButton.setBounds(width/2 - width/8, height/3 + height/6, width/4, height/6);
+		cherrypepsiButton.setBounds(width/2 - width/8, height/3, width/4, height/6);
 		cherrypepsiButton.setIcon(new ImageIcon(cherrypepsiImage));
 		cherrypepsiButton.setPressedIcon(new ImageIcon(cherrypepsiDepressed));
 		cherrypepsiButton.setOpaque(false);
