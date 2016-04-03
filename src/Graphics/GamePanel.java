@@ -354,7 +354,10 @@ public class GamePanel extends JPanel {
 			} else if (choice == 2){
 				System.out.println("CherryPepsi");
 				main.enterGamePhase("cherrypepsi");
-			}
+			} else if (choice == 3)
+				System.out.println("Clip");
+				main.enterGamePhase("clip");
+				
 		}
 		
 	}
