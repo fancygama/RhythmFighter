@@ -147,6 +147,7 @@ public class GamePanel extends JPanel {
 		JButton startButton = new JButton();
 		this.setLayout(null);
 		startButton.setOpaque(false);
+		startButton.setFocusable(false);
 		startButton.setContentAreaFilled(false);
 		startButton.setBorderPainted(false);
 		startButton.setBounds(width/2 - width/8, height/2, width/4, height/6);
@@ -158,6 +159,7 @@ public class GamePanel extends JPanel {
 		JButton tutorialButton = new JButton();
 		this.setLayout(null);
 		tutorialButton.setOpaque(false);
+		tutorialButton.setFocusable(false);
 		tutorialButton.setContentAreaFilled(false);
 		tutorialButton.setBorderPainted(false);
 		tutorialButton.setBounds(width/2 - width/8, height/2 + height/6, width/4, height/6);

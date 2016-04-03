@@ -8,6 +8,8 @@ import java.util.Random;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 
+import Graphics.Anim;
+import Graphics.Animations;
 import Graphics.Background;
 import Graphics.GamePanel;
 
@@ -41,6 +43,10 @@ public class Main extends Thread{
 	private int currBeat = 0;
 	private int currBeatAdd = 0;
 	
+	private double curAnimProg = 0; // progress of current animation (from 0 to 2pi)
+	private Anim curAnim = Anim.p1Punch; // current animation in progress (all are the same if curAnimProg = 0)
+	public double speed = 10;
+
 	private int gamePhase;
 	
 	//used by InListener to establish what should happen when a key is hit.
@@ -48,10 +54,16 @@ public class Main extends Thread{
 		if (player == 1){
 			p1CanAtk = false;	//the player can no longer attack
 			player1.setLastMove(move);
+			if (move == 1) curAnim = Anim.p1Punch;
+			else if (move == 2) curAnim = Anim.p1Kick;
+			curAnimProg = 2 * Math.PI / speed;
 			p1LastHitOffset = Math.abs(SongPlayer.notesInSong.get(0) - timer.getSongPos());
 		} else {
 			p2CanAtk = false;
 			player2.setLastMove(move);
+			if (move == 1) curAnim = Anim.p2Punch;
+			else if (move == 2) curAnim = Anim.p2Kick;
+			curAnimProg = 2 * Math.PI / speed;
 			p2LastHitOffset = Math.abs(SongPlayer.notesInSong.get(0) - timer.getSongPos());
 		}
 	}
@@ -190,6 +202,31 @@ public class Main extends Thread{
 	 
 	
 	//Update graphics and stuff here
+	switch (curAnim){
+	case p1Punch: {
+		Animations.punch(panel, curAnimProg, true, true);
+		Animations.punch(panel, curAnimProg, true, false);
+		break;
+	}
+	case p1Kick: {
+		Animations.kick(panel, curAnimProg, true, true);
+		Animations.kick(panel, curAnimProg, true, false);
+		break;
+	}
+	case p2Punch: {
+		Animations.punch(panel, curAnimProg, false, true);
+		Animations.punch(panel, curAnimProg, false, false);
+		break;
+	}
+	case p2Kick: {
+		Animations.kick(panel, curAnimProg, false, true);
+		Animations.kick(panel, curAnimProg, false, false);
+		break;
+	}
+
+	}
+	if (curAnimProg != 0) curAnimProg += 2 * Math.PI / speed;
+	if (curAnimProg >= 2* Math.PI) curAnimProg = 0;
 	  //panel.drawBackground();		//for once we have a background
 	  panel.drawNoteLanes();
 	  panel.updateNotes(songPos);
