@@ -1,4 +1,5 @@
 package Core;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -53,7 +54,9 @@ public class Main extends Thread{
 	
 	private double curAnimProg = 0; // progress of current animation (from 0 to 2pi)
 	private Anim curAnim = Anim.p1Punch; // current animation in progress (all are the same if curAnimProg = 0)
-	public double speed = 10;
+	public double speed = 12.5;
+	private Color p1Color = Color.white;
+	private Color p2Color = Color.white;
 	
 	private int flashFrame = -1;
 	private int greatFrame = -1;
@@ -260,6 +263,7 @@ public void startUp(){	//the startup process for the game
 					  if (p1ComboFlag != 0){
 						  player1.incScore(10);
 						  //combo! here's where we add visuals to represent this
+						  p1Color = Color.BLUE;
 						  lastPlayerToWin = 3;
 						  greatFrame = 14;
 						  p1ComboFlag = 0;
@@ -277,6 +281,7 @@ public void startUp(){	//the startup process for the game
 					  if (p2ComboFlag != 0){
 						  player2.incScore(10);
 						  //combo! here's where we add visuals to represent this
+						  p2Color = Color.RED;
 						  lastPlayerToWin = 4;
 						  greatFrame = 14;
 						  p2ComboFlag = 0;
@@ -324,43 +329,43 @@ public void startUp(){	//the startup process for the game
 	//Update graphics and stuff here
 	switch (curAnim){
 	case p1Punch: {
-		Animations.punch(panel, curAnimProg, true, true);
-		Animations.punch(panel, curAnimProg, true, false);
+		Animations.punch(panel, curAnimProg, true, true, p1Color);
+		Animations.punch(panel, curAnimProg, true, false, p2Color);
 		break;
 	}
 	case p1Kick: {
-		Animations.kick(panel, curAnimProg, true, true);
-		Animations.kick(panel, curAnimProg, true, false);
+		Animations.kick(panel, curAnimProg, true, true, p1Color);
+		Animations.kick(panel, curAnimProg, true, false, p2Color);
 		break;
 	}
 	case p2Punch: {
-		Animations.punch(panel, curAnimProg, false, true);
-		Animations.punch(panel, curAnimProg, false, false);
+		Animations.punch(panel, curAnimProg, false, true,  p2Color);
+		Animations.punch(panel, curAnimProg, false, false, p1Color);
 		break;
 	}
 	case p2Kick: {
-		Animations.kick(panel, curAnimProg, false, true);
-		Animations.kick(panel, curAnimProg, false, false);
+		Animations.kick(panel, curAnimProg, false, true,  p2Color);
+		Animations.kick(panel, curAnimProg, false, false, p1Color);
 		break;
 	}
 	case p1PunchBlock: {
-		Animations.punchBlock(panel, curAnimProg, true, true);
-		Animations.punchBlock(panel, curAnimProg, true, false);
+		Animations.punchBlock(panel, curAnimProg, true, true, p1Color);
+		Animations.punchBlock(panel, curAnimProg, true, false,  p2Color);
 		break;
 	}
 	case p1KickBlock: {
-		Animations.kickBlock(panel, curAnimProg, true, true);
-		Animations.kickBlock(panel, curAnimProg, true, false);
+		Animations.kickBlock(panel, curAnimProg, true, true, p1Color);
+		Animations.kickBlock(panel, curAnimProg, true, false,  p2Color);
 		break;
 	}
 	case p2PunchBlock: {
-		Animations.punchBlock(panel, curAnimProg, false, true);
-		Animations.punchBlock(panel, curAnimProg, false, false);
+		Animations.punchBlock(panel, curAnimProg, false, true,  p2Color);
+		Animations.punchBlock(panel, curAnimProg, false, false,p1Color);
 		break;
 	}
 	case p2KickBlock: {
-		Animations.kickBlock(panel, curAnimProg, false, true);
-		Animations.kickBlock(panel, curAnimProg, false, false);
+		Animations.kickBlock(panel, curAnimProg, false, true,  p2Color);
+		Animations.kickBlock(panel, curAnimProg, false, false,p1Color);
 		break;
 	}
 	default:
@@ -368,7 +373,12 @@ public void startUp(){	//the startup process for the game
 
 	}
 	if (curAnimProg != 0) curAnimProg += 2 * Math.PI / speed;
-	if (curAnimProg >= 2* Math.PI) curAnimProg = 0;
+	if (curAnimProg >= 2* Math.PI)
+	{
+		p1Color = Color.white;
+		p2Color = Color.white;
+		curAnimProg = 0;
+		}
 	  panel.drawNoteLanes();
 	  panel.drawScores();
 	  panel.updateNotes(songPos);

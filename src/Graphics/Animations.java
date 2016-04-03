@@ -12,7 +12,7 @@ public class Animations {
 	static double ovrLength = 75 / (Math.sqrt(1902*1902+1033*1033));
 	static double ovrXOff = 825/1902.0;
 	static double ovrYOff = 600/1033.0;
-	public static void punch(GamePanel panel, double stage, boolean p1, boolean curTurn)
+	public static void punch(GamePanel panel, double stage, boolean p1, boolean curTurn, Color color)
 	{
 		BufferedImage b = panel.getImage();
 		double length = ovrLength * (Math.sqrt(b.getHeight()*b.getHeight()+b.getWidth()*b.getWidth()));
@@ -20,7 +20,8 @@ public class Animations {
 		double yOff = b.getHeight() * ovrYOff;
 		Graphics2D g = (Graphics2D) b.getGraphics();
 		g.setStroke(new BasicStroke(3));
-		g.setColor(Color.white);
+		if (color!=Color.white) g.setStroke(new BasicStroke(6));
+		g.setColor(color);
 		double tempStage = stage;
 		if (stage <= 1/3 * Math.PI) stage *= 5; // Does the extension 3x as fast
 		else if (stage <= 1*Math.PI) stage = 2*Math.PI; //So it can pause here
@@ -55,6 +56,21 @@ public class Animations {
 		yCoords[6] = (int)(yCoords[4]-.25*Math.sqrt(2.0)*length  +  length*Math.abs(stage-.75*Math.PI) );
 		xCoords[7] = (int)(xCoords[6] + .5*Math.sqrt(2.0)* length);
 		yCoords[7] = (int)(yCoords[6] - .5*Math.sqrt(2.0)*length);
+		if (color!=color.white)
+		{
+			xCoords[14] = (int)(xCoords[5]-.5*length);
+			yCoords[14] = (int)(yCoords[5]-.5*length);
+			xCoords[15] = (int)(xCoords[14]);
+			yCoords[15] = (int)(yCoords[14]-2*length);
+			xCoords[16] = (int)(xCoords[15] - .25* length);
+			yCoords[16] = (int)(yCoords[15] + .75 * length);
+			xCoords[17] = (int)(xCoords[16] );
+			yCoords[17] = (int)(yCoords[16] + length);
+			xCoords[18] = (int)(xCoords[17] + .125* length);
+			yCoords[18] = (int)(yCoords[17] + .2 * length);
+			xCoords[19] = (int)(xCoords[18] - .1* length);
+			yCoords[19] = (int)(yCoords[18] + .2 * length);
+		}
 		int powDiam = 0;
 		g.setFont(new Font("comic", Font.PLAIN, 0));
 		if (!curTurn)
@@ -104,15 +120,22 @@ public class Animations {
 		g.drawLine(xCoords[1], yCoords[1], xCoords[11], yCoords[11]);
 		g.drawLine(xCoords[11], yCoords[11], xCoords[12], yCoords[12]);
 		g.drawLine(xCoords[12], yCoords[12], xCoords[13], yCoords[13]);
-		if (!curTurn)
+		if (color!=color.white)
 		{
-			g.drawOval((int)(xCoords[1]-(.5*powDiam)), (int)(yCoords[1]-.5*.5*powDiam - 4 * length), (int)(powDiam), (int)(.5*powDiam));
-			g.drawChars("POW!".toCharArray(), 0,4,(int)(xCoords[1]-.5*length),(int)(yCoords[1]-4 * length));
+			for (int i = 14; i <= 18; i++)
+			{
+				g.drawLine(xCoords[i], yCoords[i], xCoords[i+1], yCoords[i+1]);
+			}
 		}
+//		if (!curTurn)
+//		{
+//			g.drawOval((int)(xCoords[1]-(.5*powDiam)), (int)(yCoords[1]-.5*.5*powDiam - 4 * length), (int)(powDiam), (int)(.5*powDiam));
+//			g.drawChars("POW!".toCharArray(), 0,4,(int)(xCoords[1]-.5*length),(int)(yCoords[1]-4 * length));
+//		}
 		panel.repaint();
 	}
 	
-	public static void kick(GamePanel panel, double stage, boolean p1, boolean curTurn)
+	public static void kick(GamePanel panel, double stage, boolean p1, boolean curTurn, Color color)
 	{
 		BufferedImage b = panel.getImage();
 		double length = ovrLength * (Math.sqrt(b.getHeight()*b.getHeight()+b.getWidth()*b.getWidth()));
@@ -120,7 +143,8 @@ public class Animations {
 		double yOff = b.getHeight() * ovrYOff;
 		Graphics2D g = (Graphics2D) b.getGraphics();
 		g.setStroke(new BasicStroke(3));
-		g.setColor(Color.white);
+		if (color!=Color.white) g.setStroke(new BasicStroke(6));
+		g.setColor(color);
 		double tempStage = stage;
 		if (stage <= 1/3 * Math.PI) stage *= 5; // Does the extension 3x as fast
 		else if (stage <= 1*Math.PI) stage = 2*Math.PI; //So it can pause here
@@ -159,6 +183,21 @@ public class Animations {
 		xCoords[3] -= .75*length*Math.abs(stage-Math.PI);
 		xCoords[6] -= .25*length*Math.abs(stage-Math.PI);
 		xCoords[7] -= .5*length*Math.abs(stage-Math.PI);
+		if (color!=color.white)
+		{
+			xCoords[14] = (int)(xCoords[5]-.5*length);
+			yCoords[14] = (int)(yCoords[5]-.5*length);
+			xCoords[15] = (int)(xCoords[14]);
+			yCoords[15] = (int)(yCoords[14]-2*length);
+			xCoords[16] = (int)(xCoords[15] - .25* length);
+			yCoords[16] = (int)(yCoords[15] + .75 * length);
+			xCoords[17] = (int)(xCoords[16] );
+			yCoords[17] = (int)(yCoords[16] + length);
+			xCoords[18] = (int)(xCoords[17] + .125* length);
+			yCoords[18] = (int)(yCoords[17] + .2 * length);
+			xCoords[19] = (int)(xCoords[18] - .1* length);
+			yCoords[19] = (int)(yCoords[18] + .2 * length);
+		}
 		int powDiam = 0;
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 0));
 		if (!curTurn)
@@ -213,15 +252,22 @@ public class Animations {
 		g.drawLine(xCoords[1], yCoords[1], xCoords[11], yCoords[11]);
 		g.drawLine(xCoords[11], yCoords[11], xCoords[12], yCoords[12]);
 		g.drawLine(xCoords[12], yCoords[12], xCoords[13], yCoords[13]);
-		if (!curTurn)
+		if (color!=color.white)
 		{
-			g.drawOval((int)(xCoords[1]-(.5*powDiam)), (int)(yCoords[1]-.5*.5*powDiam - 4 * length), (int)(powDiam), (int)(.5*powDiam));
-			g.drawChars("WHAP!".toCharArray(), 0,5,(int)(xCoords[1]-.5*length),(int)(yCoords[1]-4 * length));
+			for (int i = 14; i <= 18; i++)
+			{
+				g.drawLine(xCoords[i], yCoords[i], xCoords[i+1], yCoords[i+1]);
+			}
 		}
+//		if (!curTurn)
+//		{
+//			g.drawOval((int)(xCoords[1]-(.5*powDiam)), (int)(yCoords[1]-.5*.5*powDiam - 4 * length), (int)(powDiam), (int)(.5*powDiam));
+//			g.drawChars("WHAP!".toCharArray(), 0,5,(int)(xCoords[1]-.5*length),(int)(yCoords[1]-4 * length));
+//		}
 		panel.repaint();
 	}
 	
-	public static void punchBlock(GamePanel panel, double stage, boolean p1, boolean curTurn)
+	public static void punchBlock(GamePanel panel, double stage, boolean p1, boolean curTurn, Color color)
 	{
 		BufferedImage b = panel.getImage();
 		double length = ovrLength * (Math.sqrt(b.getHeight()*b.getHeight()+b.getWidth()*b.getWidth()));
@@ -229,7 +275,7 @@ public class Animations {
 		double yOff = b.getHeight() * ovrYOff;
 		Graphics2D g = (Graphics2D) b.getGraphics();
 		g.setStroke(new BasicStroke(3));
-		g.setColor(Color.white);
+		g.setColor(color);
 		double tempStage = stage;
 		if (stage <= 1/3 * Math.PI) stage *= 5; // Does the extension 3x as fast
 		else if (stage <= 1*Math.PI) stage = 2*Math.PI; //So it can pause here
@@ -306,14 +352,14 @@ public class Animations {
 		g.drawLine(xCoords[1], yCoords[1], xCoords[11], yCoords[11]);
 		g.drawLine(xCoords[11], yCoords[11], xCoords[12], yCoords[12]);
 		g.drawLine(xCoords[12], yCoords[12], xCoords[13], yCoords[13]);
-		if (!curTurn)
-		{
-			g.drawOval((int)(xCoords[1]-(.5*powDiam)), (int)(yCoords[1]-.5*.5*powDiam - 4 * length), (int)(powDiam), (int)(.5*powDiam));
-			g.drawChars("BLOCKED!".toCharArray(), 0,7,(int)(xCoords[1]-.5*length),(int)(yCoords[1]-4 * length));
-		}
+//		if (!curTurn)
+//		{
+//			g.drawOval((int)(xCoords[1]-(.5*powDiam)), (int)(yCoords[1]-.5*.5*powDiam - 4 * length), (int)(powDiam), (int)(.5*powDiam));
+//			g.drawChars("BLOCKED!".toCharArray(), 0,7,(int)(xCoords[1]-.5*length),(int)(yCoords[1]-4 * length));
+//		}
 		panel.repaint();
 	}
-	public static void kickBlock(GamePanel panel, double stage, boolean p1, boolean curTurn)
+	public static void kickBlock(GamePanel panel, double stage, boolean p1, boolean curTurn, Color color)
 	{
 		BufferedImage b = panel.getImage();
 		double length = ovrLength * (Math.sqrt(b.getHeight()*b.getHeight()+b.getWidth()*b.getWidth()));
@@ -321,7 +367,7 @@ public class Animations {
 		double yOff = b.getHeight() * ovrYOff;
 		Graphics2D g = (Graphics2D) b.getGraphics();
 		g.setStroke(new BasicStroke(3));
-		g.setColor(Color.white);
+		g.setColor(color);
 		double tempStage = stage;
 		if (stage <= 1/3 * Math.PI) stage *= 5; // Does the extension 3x as fast
 		else if (stage <= 1*Math.PI) stage = 2*Math.PI; //So it can pause here
@@ -405,11 +451,11 @@ public class Animations {
 		g.drawLine(xCoords[1], yCoords[1], xCoords[11], yCoords[11]);
 		g.drawLine(xCoords[11], yCoords[11], xCoords[12], yCoords[12]);
 		g.drawLine(xCoords[12], yCoords[12], xCoords[13], yCoords[13]);
-		if (!curTurn)
-		{
-			g.drawOval((int)(xCoords[1]-(.5*powDiam)), (int)(yCoords[1]-.5*.5*powDiam - 4 * length), (int)(powDiam), (int)(.5*powDiam));
-			g.drawChars("DODGED!".toCharArray(), 0,7,(int)(xCoords[1]-.5*length),(int)(yCoords[1]-4 * length));
-		}
+//		if (!curTurn)
+//		{
+//			g.drawOval((int)(xCoords[1]-(.5*powDiam)), (int)(yCoords[1]-.5*.5*powDiam - 4 * length), (int)(powDiam), (int)(.5*powDiam));
+//			g.drawChars("DODGED!".toCharArray(), 0,7,(int)(xCoords[1]-.5*length),(int)(yCoords[1]-4 * length));
+//		}
 		panel.repaint();
 	}
 	
