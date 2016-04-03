@@ -63,6 +63,7 @@ public class Main extends Thread{
 			p1ComboFlag = player1.setLastMove(move);
 			if (move == 1) curAnim = Anim.p1Punch;
 			else if (move == 2) curAnim = Anim.p1Kick;
+			else if (move == 3) curAnim = Anim.p2PunchBlock;
 			curAnimProg = 2 * Math.PI / speed;
 			p1LastHitOffset = Math.abs(SongPlayer.notesInSong.get(currBeat) - timer.getSongPos());
 		} else {
@@ -71,6 +72,7 @@ public class Main extends Thread{
 			p2ComboFlag = player2.setLastMove(move);
 			if (move == 1) curAnim = Anim.p2Punch;
 			else if (move == 2) curAnim = Anim.p2Kick;
+			else if (move == 3) curAnim = Anim.p1KickBlock;
 			curAnimProg = 2 * Math.PI / speed;
 			p2LastHitOffset = Math.abs(SongPlayer.notesInSong.get(currBeat) - timer.getSongPos());
 		}
@@ -270,6 +272,28 @@ public class Main extends Thread{
 		Animations.kick(panel, curAnimProg, false, false);
 		break;
 	}
+	case p1PunchBlock: {
+		Animations.punchBlock(panel, curAnimProg, true, true);
+		Animations.punchBlock(panel, curAnimProg, true, false);
+		break;
+	}
+	case p1KickBlock: {
+		Animations.kickBlock(panel, curAnimProg, true, true);
+		Animations.kickBlock(panel, curAnimProg, true, false);
+		break;
+	}
+	case p2PunchBlock: {
+		Animations.punchBlock(panel, curAnimProg, false, true);
+		Animations.punchBlock(panel, curAnimProg, false, false);
+		break;
+	}
+	case p2KickBlock: {
+		Animations.kickBlock(panel, curAnimProg, false, true);
+		Animations.kickBlock(panel, curAnimProg, false, false);
+		break;
+	}
+	default:
+		break;
 
 	}
 	if (curAnimProg != 0) curAnimProg += 2 * Math.PI / speed;

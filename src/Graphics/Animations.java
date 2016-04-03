@@ -59,9 +59,9 @@ public class Animations {
 		g.setFont(new Font("comic", Font.PLAIN, 0));
 		if (!curTurn)
 		{
-			if (tempStage >= Math.PI)
+			if (tempStage >= .4 * Math.PI)
 			{
-				double curLength = length * (tempStage-.5*Math.PI);
+				double curLength = length * (tempStage-.4*Math.PI);
 				xCoords[4] -= .25* curLength;
 				xCoords[5] -= .4* curLength;
 				xCoords[2] -=  .4*curLength;
@@ -89,7 +89,8 @@ public class Animations {
 			}	
 		}
 		g.drawLine(xCoords[2],yCoords[2],xCoords[3],yCoords[3]); //draws right forearm
-		g.fillOval((int)(xCoords[3]-(.15*length)), (int)(yCoords[3]-(.1*length)), (int)(.3*length), (int)(.2*length)); // draws the left fist
+		double boomWidth = length+length*Math.abs(.75*Math.PI-stage);
+		g.fillOval((int)(xCoords[3]-(.15*boomWidth)), (int)(yCoords[3]-(.1*boomWidth)), (int)(.3*boomWidth), (int)(.2*boomWidth)); // draws the left fist
 		g.drawLine(xCoords[2],yCoords[2], xCoords[4], yCoords[4]); //draws right upper arm
 		g.drawLine(xCoords[1], yCoords[1], xCoords[4], yCoords[4]); // draws the torso
 		g.drawLine(xCoords[4], yCoords[4], xCoords[5], yCoords[5]);
