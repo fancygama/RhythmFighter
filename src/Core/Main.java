@@ -266,22 +266,24 @@ public void startUp(){	//the startup process for the game
 	  				panel.getNotesOnScreen().remove(0);
 	  			//System.out.println("removed at " + songPos);
 	  			}
-	  			
+	  			if (currBeat + 1 != beatsInSong.size())
 	  			currBeat++;
 	  			
 
 	  		}
 		  
-		  if (songPos - 20 >= beatsInSong.get(currBeatAdd) - 1000 /*&& songPos - 20 <= beatsInSong.get(currBeatAdd) - 1000*/){	//adds a new beat to the panel if it's time
-		  		
-			  //panel.getNotesOnScreen().add(frameWidth/2);
-			  	panel.getNotesOnScreen().add(beatsInSong.get(currBeatAdd));
-		  		//System.out.println("added at " + songPos + " compared to " + timer.getSongPos() + ". Added for " + beatsInSong.get(currBeatAdd));
-		  		currBeatAdd++;
-				//System.out.println("SongPos: " + songPos);
-				//System.out.println("Current: " + beatsInSong.get(currBeat));
-		  			//or something like that
-		  	}
+		  if (currBeatAdd < beatsInSong.size()){
+			  if (songPos - 20 >= beatsInSong.get(currBeatAdd) - 1000 /*&& songPos - 20 <= beatsInSong.get(currBeatAdd) - 1000*/){	//adds a new beat to the panel if it's time
+			  		
+				  //panel.getNotesOnScreen().add(frameWidth/2);
+				  	panel.getNotesOnScreen().add(beatsInSong.get(currBeatAdd));
+			  		//System.out.println("added at " + songPos + " compared to " + timer.getSongPos() + ". Added for " + beatsInSong.get(currBeatAdd));
+			  		currBeatAdd++;
+					//System.out.println("SongPos: " + songPos);
+					//System.out.println("Current: " + beatsInSong.get(currBeat));
+			  			//or something like that
+			  	}
+		  }
 		  
 		  if (songPos + 100 >= beatsInSong.get(currBeat)){	//it's time to see who won!
 			  if (p1LastHitOffset < 200 || p2LastHitOffset < 200){
