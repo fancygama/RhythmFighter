@@ -14,14 +14,15 @@ public class Animations {
 	static double ovrYOff = 600/1033.0;
 	public static void punch(GamePanel panel, double stage, boolean p1, boolean curTurn, Color color)
 	{
+		boolean combo = (color!=color.white && curTurn);
 		BufferedImage b = panel.getImage();
 		double length = ovrLength * (Math.sqrt(b.getHeight()*b.getHeight()+b.getWidth()*b.getWidth()));
 		double xOff = b.getWidth() * ovrXOff;
 		double yOff = b.getHeight() * ovrYOff;
 		Graphics2D g = (Graphics2D) b.getGraphics();
 		g.setStroke(new BasicStroke(3));
-		if (color!=Color.white) g.setStroke(new BasicStroke(6));
-		g.setColor(color);
+		if (combo) g.setStroke(new BasicStroke(6));
+		if (combo) g.setColor(color);
 		double tempStage = stage;
 		if (stage <= 1/3 * Math.PI) stage *= 5; // Does the extension 3x as fast
 		else if (stage <= 1*Math.PI) stage = 2*Math.PI; //So it can pause here
@@ -56,7 +57,7 @@ public class Animations {
 		yCoords[6] = (int)(yCoords[4]-.25*Math.sqrt(2.0)*length  +  length*Math.abs(stage-.75*Math.PI) );
 		xCoords[7] = (int)(xCoords[6] + .5*Math.sqrt(2.0)* length);
 		yCoords[7] = (int)(yCoords[6] - .5*Math.sqrt(2.0)*length);
-		if (color!=color.white)
+		if (combo)
 		{
 			xCoords[14] = (int)(xCoords[5]-.5*length);
 			yCoords[14] = (int)(yCoords[5]-.5*length);
@@ -77,7 +78,8 @@ public class Animations {
 		{
 			if (tempStage >= .4 * Math.PI)
 			{
-				double curLength = length * (tempStage-.4*Math.PI);
+				double curLength =  length * (tempStage-.4*Math.PI);
+				if (color != color.white) curLength *= 2;
 				xCoords[4] -= .25* curLength;
 				xCoords[5] -= .4* curLength;
 				xCoords[2] -=  .4*curLength;
@@ -85,7 +87,7 @@ public class Animations {
 				xCoords[6] -=  .4 *curLength;
 				xCoords[7] -= .5* curLength;
 				yCoords[2] -=  .125*curLength;
-				yCoords[3] -=  .5 *curLength;
+				yCoords[3] -=  .25 *curLength;
 				yCoords[6] -=  .125 *curLength;
 				yCoords[7] -= .25* curLength;
 				powDiam += curLength;
@@ -137,14 +139,15 @@ public class Animations {
 	
 	public static void kick(GamePanel panel, double stage, boolean p1, boolean curTurn, Color color)
 	{
+		boolean combo = (color!=color.white && curTurn);
 		BufferedImage b = panel.getImage();
 		double length = ovrLength * (Math.sqrt(b.getHeight()*b.getHeight()+b.getWidth()*b.getWidth()));
 		double xOff = b.getWidth() * ovrXOff;
 		double yOff = b.getHeight() * ovrYOff;
 		Graphics2D g = (Graphics2D) b.getGraphics();
 		g.setStroke(new BasicStroke(3));
-		if (color!=Color.white) g.setStroke(new BasicStroke(6));
-		g.setColor(color);
+		if (combo) g.setStroke(new BasicStroke(6));
+		if (combo) g.setColor(color);
 		double tempStage = stage;
 		if (stage <= 1/3 * Math.PI) stage *= 5; // Does the extension 3x as fast
 		else if (stage <= 1*Math.PI) stage = 2*Math.PI; //So it can pause here
@@ -183,7 +186,7 @@ public class Animations {
 		xCoords[3] -= .75*length*Math.abs(stage-Math.PI);
 		xCoords[6] -= .25*length*Math.abs(stage-Math.PI);
 		xCoords[7] -= .5*length*Math.abs(stage-Math.PI);
-		if (color!=color.white)
+		if (combo)
 		{
 			xCoords[14] = (int)(xCoords[5]-.5*length);
 			yCoords[14] = (int)(yCoords[5]-.5*length);
@@ -202,10 +205,10 @@ public class Animations {
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 0));
 		if (!curTurn)
 		{
-			if (tempStage >= Math.PI)
+			if (tempStage >= .5*Math.PI)
 			{
-				double curLength = length * (tempStage-Math.PI
-			);
+				double curLength = length * (tempStage-.5*Math.PI);
+				if (color != color.white) curLength *= 2;
 				xCoords[4] += .25* curLength;
 				xCoords[5] += .4* curLength;
 				yCoords[4] += .1* curLength;
