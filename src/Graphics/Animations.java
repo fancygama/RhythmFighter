@@ -37,9 +37,9 @@ public class Animations {
 		yCoords[4] = yCoords[2];
 		xCoords[1] = xCoords[4];
 		yCoords[1] = (int)(yCoords[4]+1.5*length);
-		xCoords[8] = (int)(xCoords[1] - .5 * length*Math.abs(stage-Math.PI));
+		xCoords[8] = (int)(xCoords[1] - .25 *length - .75 * length*Math.abs(stage-.75*Math.PI));
 		yCoords[8] = (int)(yCoords[1] + 1.25* length);
-		xCoords[9] = (int)(xCoords[8] - .25 * length);
+		xCoords[9] = (int)(xCoords[8] - .25 * length - .25 * length*Math.abs(stage-.75*Math.PI));
 		yCoords[9] = (int)(yCoords[8] +  1.25 *  length);
 		xCoords[10] = (int)(xCoords[9] + .25 * length);
 		yCoords[10] = yCoords[9];
@@ -51,8 +51,8 @@ public class Animations {
 		yCoords[13] = yCoords[12];
 		xCoords[5] = xCoords[4];
 		yCoords[5] = (int)(yCoords[4]-.5*length);
-		xCoords[6] = (int)(xCoords[4]+.5*Math.sqrt(2.0)*length);
-		yCoords[6] = (int)(yCoords[4]-.25*Math.sqrt(2.0)*length);
+		xCoords[6] = (int)(xCoords[4]+.5*Math.sqrt(2.0)*length - .25* length*Math.abs(stage-.75*Math.PI) );
+		yCoords[6] = (int)(yCoords[4]-.25*Math.sqrt(2.0)*length  +  length*Math.abs(stage-.75*Math.PI) );
 		xCoords[7] = (int)(xCoords[6] + .5*Math.sqrt(2.0)* length);
 		yCoords[7] = (int)(yCoords[6] - .5*Math.sqrt(2.0)*length);
 		int powDiam = 0;
@@ -61,17 +61,17 @@ public class Animations {
 		{
 			if (tempStage >= Math.PI)
 			{
-				double curLength = length * (tempStage-Math.PI);
+				double curLength = length * (tempStage-.5*Math.PI);
 				xCoords[4] -= .25* curLength;
 				xCoords[5] -= .4* curLength;
 				xCoords[2] -=  .4*curLength;
 				xCoords[3] -=  .5 *curLength;
 				xCoords[6] -=  .4 *curLength;
 				xCoords[7] -= .5* curLength;
-				yCoords[2] -=  .15*curLength;
-				yCoords[3] -=  .4 *curLength;
-				yCoords[6] -=  .15 *curLength;
-				yCoords[7] -= .4* curLength;
+				yCoords[2] -=  .125*curLength;
+				yCoords[3] -=  .5 *curLength;
+				yCoords[6] -=  .125 *curLength;
+				yCoords[7] -= .25* curLength;
 				powDiam += curLength;
 				g.setFont(new Font("CourierNew", Font.PLAIN, (int)(curLength/10)));
 				}
@@ -120,7 +120,6 @@ public class Animations {
 		Graphics2D g = (Graphics2D) b.getGraphics();
 		g.setStroke(new BasicStroke(3));
 		g.setColor(Color.white);
-		//stage = 1.5*Math.PI;
 		double tempStage = stage;
 		if (stage <= 1/3 * Math.PI) stage *= 5; // Does the extension 3x as fast
 		else if (stage <= 1*Math.PI) stage = 2*Math.PI; //So it can pause here
@@ -244,13 +243,13 @@ public class Animations {
 		frame.pack();
 		while (true)
 		{
-			int precision = 5;
+			int precision = 10;
 			for (int i = 1; i <= precision ; i++)
 			{
 				double stage = 2 * Math.PI / precision * i;
 				panel.reset();
-				kick(panel,stage,true,true);
-				kick(panel,stage,true,false);
+				punch(panel,stage,true,true);
+				punch(panel,stage,true,false);
 				try {
 					Thread.sleep(33);
 				} catch (InterruptedException e) {
@@ -263,8 +262,8 @@ public class Animations {
 			{
 				double stage = 2 * Math.PI / precision * i;
 				panel.reset();
-				kick(panel,0,true,true);
-				kick(panel,0,true,false);
+				punch(panel,0,true,true);
+				punch(panel,0,true,false);
 				try {
 					Thread.sleep(33);
 				} catch (InterruptedException e) {
