@@ -358,5 +358,20 @@ public class GamePanel extends JPanel {
 		}
 		
 	}
+
+	public void drawGreat(int greatFrame, int playerFlag) {
+		// TODO Auto-generated method stub
+		try {
+			BufferedImage originalImage = ImageIO.read(new File("src/resources/great/great" + greatFrame + ".png"));
+			if (playerFlag == 1){
+				panelImage.createGraphics().drawImage(originalImage, width/4, height/4, width/10, width/20, null);
+			} else {
+				panelImage.createGraphics().drawImage(originalImage, width - width/4, height/4, width/10, width/20, null);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 }

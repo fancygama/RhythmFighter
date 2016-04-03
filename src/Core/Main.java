@@ -56,7 +56,9 @@ public class Main extends Thread{
 	public double speed = 10;
 	
 	private int flashFrame = -1;
+	private int greatFrame = -1;
 	private int gamePhase;
+	private int lastPlayerToWin = 0;
 	
 	//used by InListener to establish what should happen when a key is hit.
 	public void playerAttacked(int player, int move){
@@ -249,6 +251,8 @@ public void startUp(){	//the startup process for the game
 			  if (p1LastHitOffset < 200 || p2LastHitOffset < 200){
 				  if (p1LastHitOffset < p2LastHitOffset && player1.getLastMove() != Player.BLOCK){
 					  //p1 is the winner! here's where we add visuals to represent this
+					  lastPlayerToWin = 1;
+					  greatFrame = 9;
 					  if (player1.getLastMove() == Player.PUNCH) curAnim =Anim.p1Punch;
 					  else if (player1.getLastMove() == Player.KICK) curAnim =Anim.p1Kick;
 					  player1.incScore(10);
@@ -262,6 +266,8 @@ public void startUp(){	//the startup process for the game
 					  curAnimProg = 2 * Math.PI / speed;
 				  } else if (p2LastHitOffset < p1LastHitOffset && player2.getLastMove() != Player.BLOCK){
 					//p1 is the winner! here's where we add visuals to represent this
+					  lastPlayerToWin = 2;
+					  greatFrame = 9;
 					  if (player2.getLastMove() == Player.PUNCH) curAnim =Anim.p2Punch;
 					  else if (player2.getLastMove() == Player.KICK) curAnim =Anim.p2Kick;
 					  player2.incScore(10);
@@ -304,6 +310,11 @@ public void startUp(){	//the startup process for the game
 	if (flashFrame != -1){
 		panel.drawFlash(flashFrame);
 		flashFrame--;
+	}
+	
+	if (greatFrame != -1){
+		panel.drawGreat(greatFrame, lastPlayerToWin);
+		greatFrame--;
 	}
 	
 	//Update graphics and stuff here
