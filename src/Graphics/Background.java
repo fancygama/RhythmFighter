@@ -40,6 +40,17 @@ public class Background extends JPanel{
 		
 		g.drawImage(backgroundImg, 0, 0, null);
 	}
+
+	public void setBackgroundTut() {
+		
+		try {
+			BufferedImage originalImage = ImageIO.read(new File("src/resources/tutorialbackground" + ".png"));
+			backgroundImg.createGraphics().drawImage(originalImage, 0, 0, this.getWidth(), this.getHeight(), null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	
 }

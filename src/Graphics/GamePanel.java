@@ -108,7 +108,7 @@ public class GamePanel extends JPanel {
 			long notePos = notesOnScreen.get(i);
 			//System.out.print("NotePos: " + notePos);
 			
-			int xVal = (int) (((double)(songPos - (notePos - 1000))/1000.0) * (width - width/20 - (width/2)) + width/2);
+			int xVal = (int) (((double)(songPos - (notePos - 1000))/1000.0) * (width/2));
 			//System.out.println(" Percent of time passed: " + ((double)(songPos - (notePos - 1000))/1000.0));
 			Graphics g = panelImage.getGraphics();
 			g.setColor(Color.BLUE);

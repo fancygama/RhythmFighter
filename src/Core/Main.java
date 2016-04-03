@@ -21,6 +21,7 @@ public class Main extends Thread{
 	public Background backgroundLayer;	//displays the background
 	public int frameWidth;
 	public int frameHeight;
+	public static int LAGCOMP = 50;
 	
 	//the menu's song stuff
 	private SongPlayer menuMusic;
@@ -155,6 +156,9 @@ public class Main extends Thread{
 				//set up the players
 				player1 = new Player();
 				player2 = new Player();
+				
+				backgroundLayer.setBackground();
+				backgroundLayer.repaint();
 			
 				frame.addKeyListener(new InListener(this));
 				panel.removeAll();
@@ -175,11 +179,13 @@ public class Main extends Thread{
 
 	if (beatsInSong.size() != currBeat - 1){
 			
-		  if (songPos - 50 <= beatsInSong.get(currBeat) && songPos + 50 >= beatsInSong.get(currBeat)){	//if the song is within +/- 100 ms of the next note
-		  		atkWindow = true;
+		  if (songPos - 100 - LAGCOMP <= beatsInSong.get(currBeat) && songPos + 100 >= beatsInSong.get(currBeat)){	//if the song is within +/- 100 ms of the next note
+		  		p1CanAtk = true;
+		  		p2CanAtk = true;
 		  		
 		  } else {
-			  atkWindow = false;
+			  p1CanAtk = false;
+			  p2CanAtk = false;
 		  }
 		  System.out.print("Evaluating for " + beatsInSong.get(currBeat) + ". ");
 		  if (songPos - 20 >= beatsInSong.get(currBeat) /*&& songPos + 20 >= beatsInSong.get(currBeat)*/){	//if the song is within +/- 10 ms of the next note
@@ -207,8 +213,8 @@ public class Main extends Thread{
 		  			//or something like that
 		  	}
 		  
-		  if (songPos + 50 >= beatsInSong.get(currBeat)){	//it's time to see who won!
-			  if (p1LastHitOffset < 100 || p2LastHitOffset < 100){
+		  if (songPos + 100 >= beatsInSong.get(currBeat)){	//it's time to see who won!
+			  if (p1LastHitOffset < 200 || p2LastHitOffset < 200){
 				  if (p1LastHitOffset < p2LastHitOffset && player1.getLastMove() != Player.BLOCK){
 					  //p1 is the winner! here's where we add visuals to represent this
 					  player1.incScore(10);
@@ -230,6 +236,8 @@ public class Main extends Thread{
 						  player2.setLastMove(Player.NONE);
 					  }
 				  }
+				  p1LastHitOffset = 200;
+				  p2LastHitOffset = 200;
 			  }
 		  }
 		  
