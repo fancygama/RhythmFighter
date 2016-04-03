@@ -201,11 +201,12 @@ public class GamePanel extends JPanel {
 	}
 	
 	public void displaySongs(){
-		System.out.println("Hork");
 		BufferedImage theforceImage = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
 		BufferedImage cherrypepsiImage = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
 		BufferedImage theforceDepressed = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
 		BufferedImage cherrypepsiDepressed = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage clipImage = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage clipDepressed = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
 
 		try {
 			BufferedImage originalImage = ImageIO.read(new File("src/resources/songs.png"));
@@ -215,6 +216,8 @@ public class GamePanel extends JPanel {
 			cherrypepsiImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/cherrypepsibutton.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
 			theforceDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/theforcebuttonpressed.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
 			cherrypepsiDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/cherrypepsibuttonpressed.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			clipImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/clip.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			clipDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/clippressed.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -228,7 +231,7 @@ public class GamePanel extends JPanel {
 		theforceButton.setFocusable(false);
 		theforceButton.setContentAreaFilled(false);
 		theforceButton.setBorderPainted(false);
-		theforceButton.setBounds(width/2 - width/8, height/3, width/4, height/6);
+		theforceButton.setBounds(width/2 - width/8, height/3 + height/6, width/4, height/6);
 		theforceButton.setIcon(new ImageIcon(theforceImage));
 		theforceButton.setPressedIcon(new ImageIcon(theforceDepressed));
 		theforceButton.setOpaque(false);
@@ -240,14 +243,27 @@ public class GamePanel extends JPanel {
 		cherrypepsiButton.setFocusable(false);
 		cherrypepsiButton.setContentAreaFilled(false);
 		cherrypepsiButton.setBorderPainted(false);
-		cherrypepsiButton.setBounds(width/2 - width/8, height/3 + height/6, width/4, height/6);
+		cherrypepsiButton.setBounds(width/2 - width/8, height/3, width/4, height/6);
 		cherrypepsiButton.setIcon(new ImageIcon(cherrypepsiImage));
 		cherrypepsiButton.setPressedIcon(new ImageIcon(cherrypepsiDepressed));
 		cherrypepsiButton.setOpaque(false);
 		cherrypepsiButton.addActionListener(new SongSelectListener(2));
 		
+		JButton clipButton = new JButton();
+		this.setLayout(null);
+		clipButton.setOpaque(false);
+		clipButton.setFocusable(false);
+		clipButton.setContentAreaFilled(false);
+		clipButton.setBorderPainted(false);
+		clipButton.setBounds(width/2 - width/8, height/ 3+ height/3, width/4, height/6);
+		clipButton.setIcon(new ImageIcon(clipImage));
+		clipButton.setPressedIcon(new ImageIcon(clipDepressed));
+		clipButton.setOpaque(false);
+		clipButton.addActionListener(new SongSelectListener(3));
+		
 		this.add(theforceButton);
 		this.add(cherrypepsiButton);
+		this.add(clipButton);
 	}
 	
 	public void addBackground(){	//also resets the frame
@@ -349,14 +365,12 @@ public class GamePanel extends JPanel {
 			}
 			clip.start();
 			if (choice == 1){
-				System.out.println("TheForce");
 				main.enterGamePhase("theforce");
 			} else if (choice == 2){
-				System.out.println("CherryPepsi");
 				main.enterGamePhase("cherrypepsi");
-			} else if (choice == 3)
-				System.out.println("Clip");
-				main.enterGamePhase("clip");
+			} else if (choice == 3){
+				main.enterGamePhase("weekend");
+			}
 				
 		}
 		

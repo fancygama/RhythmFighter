@@ -1,6 +1,9 @@
 package Graphics;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +42,20 @@ public class Background extends JPanel{
 	public void paintComponent(Graphics g){
 		
 		g.drawImage(backgroundImg, 0, 0, null);
+	}
+	
+	public void drawNoteLanes(){
+		Graphics g = backgroundImg.getGraphics();
+		Graphics2D gg = (Graphics2D) g;
+		gg.setStroke(new BasicStroke(5));
+		gg.setColor(Color.white);
+		gg.drawLine(0, this.height/10, this.width, this.height/10);
+		gg.drawLine(0, this.height/10*2, this.width, this.height/10*2);
+		gg.drawLine(this.width/2, this.height/10, this.width/2, this.height/10*2);
+		gg.setColor(Color.red);
+		gg.drawRect(this.width/20, this.height/10, 5, this.height/10);
+		gg.drawRect(this.width - this.width/20, this.height/10, 5, this.height/10);
+		this.repaint();
 	}
 
 	public void setBackgroundTut() {
