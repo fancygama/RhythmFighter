@@ -359,14 +359,20 @@ public class GamePanel extends JPanel {
 		
 	}
 
+	
 	public void drawGreat(int greatFrame, int playerFlag) {
 		// TODO Auto-generated method stub
 		try {
-			BufferedImage originalImage = ImageIO.read(new File("src/resources/great/great" + greatFrame + ".png"));
-			if (playerFlag == 1){
-				panelImage.createGraphics().drawImage(originalImage, width/4, height/4, width/10, width/20, null);
+			BufferedImage originalImage;
+			if (playerFlag > 2){
+				originalImage = ImageIO.read(new File("src/resources/combo/combo" + greatFrame + ".png"));
 			} else {
-				panelImage.createGraphics().drawImage(originalImage, width - width/4, height/4, width/10, width/20, null);
+				originalImage = ImageIO.read(new File("src/resources/great/great" + greatFrame + ".png"));
+			}
+			if (playerFlag % 2 != 0){
+				panelImage.createGraphics().drawImage(originalImage, width/4, height/4, width/5, width/10, null);
+			} else {
+				panelImage.createGraphics().drawImage(originalImage, width - width/2, height/4, width/5, width/10, null);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

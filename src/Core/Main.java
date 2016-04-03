@@ -260,12 +260,14 @@ public void startUp(){	//the startup process for the game
 					  if (p1ComboFlag != 0){
 						  player1.incScore(10);
 						  //combo! here's where we add visuals to represent this
+						  lastPlayerToWin = 3;
+						  greatFrame = 14;
 						  p1ComboFlag = 0;
 						  player1.setLastMove(Player.NONE);
 					  }
 					  curAnimProg = 2 * Math.PI / speed;
 				  } else if (p2LastHitOffset < p1LastHitOffset && player2.getLastMove() != Player.BLOCK){
-					//p1 is the winner! here's where we add visuals to represent this
+					//p2 is the winner! here's where we add visuals to represent this
 					  lastPlayerToWin = 2;
 					  greatFrame = 9;
 					  if (player2.getLastMove() == Player.PUNCH) curAnim =Anim.p2Punch;
@@ -275,6 +277,8 @@ public void startUp(){	//the startup process for the game
 					  if (p2ComboFlag != 0){
 						  player2.incScore(10);
 						  //combo! here's where we add visuals to represent this
+						  lastPlayerToWin = 4;
+						  greatFrame = 14;
 						  p2ComboFlag = 0;
 						  player2.setLastMove(Player.NONE);
 					  }
