@@ -87,23 +87,22 @@ public class Main extends Thread{
 	public void quit(){
 		frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 	}
-
-	public void startUpMenu(){
-
-		gamePhase = 0;
+	
+	public void initGame(){
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		frameWidth = gd.getDisplayMode().getWidth();
 		frameHeight = gd.getDisplayMode().getHeight();
-
-		menuMusic = new SongPlayer("src/resources/menumusic.wav");
-		menuMusic.getClip().loop(Clip.LOOP_CONTINUOUSLY);
-
+		
 		//set up the game's frame
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//frame.setPreferredSize(new Dimension(frameWidth,frameHeight));
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 	//goes fullscreen!
 		frame.setUndecorated(true);
+		panel = new GamePanel(frameWidth, frameHeight, this);
+		panel.setFocusable(false);
+		panel.setOpaque(false);
+		
 		backgroundLayer = new Background(frameWidth, frameHeight);
 		backgroundLayer.setOpaque(true);
 		backgroundLayer.setPreferredSize(new Dimension(frameWidth, frameHeight));
@@ -111,12 +110,18 @@ public class Main extends Thread{
 		backgroundLayer.setFocusable(false);
 		backgroundLayer.setLayout(null);
 		frame.add(backgroundLayer);
-		//add in the panel to display everything
-		panel = new GamePanel(frameWidth, frameHeight, this);
-		panel.setFocusable(false);
-		panel.setOpaque(false);
 		backgroundLayer.add(panel);
+		
+	}
+
+	public void startUpMenu(){
+
+		gamePhase = 0;
+		menuMusic = new SongPlayer("src/resources/menumusic.wav");
+		menuMusic.getClip().loop(Clip.LOOP_CONTINUOUSLY);
 		panel.displayMenu();
+		
+		panel.repaint();
 
 		frame.validate();
 		frame.setVisible(true);
@@ -470,6 +475,8 @@ public class Main extends Thread{
 		returnButton.setPressedIcon(new ImageIcon(startButtonDepressed));
 		returnButton.setOpaque(false);
 		returnButton.addActionListener(new StartListener());
+		
+		panel.displayResults(player1.getScore(), player2.getScore());
 
 		panel.add(returnButton);
 		panel.repaint();
@@ -486,10 +493,14 @@ public class Main extends Thread{
 	@Override
 	public void run(){
 		
+		initGame();
+		while(true){
 		startUpMenu();
 //		Timer menuTimer = new Timer(16, null);
 //		menuTimer.setInitialDelay(0);
 //		menuTimer.start();
+		
+		
 		
 		while (gamePhase == 0){
 			try {
@@ -548,9 +559,20 @@ public class Main extends Thread{
 		timer.stop();
 		System.out.println("timer stopped");
 		startUpResults();
+		gamePhase = 0;
+		gameDone = false;
 		
+		while(gamePhase == 0){
+			try {
+				Main.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		panel.removeAll();
+		continue;
 		
-		
+		}
 	}
 
 

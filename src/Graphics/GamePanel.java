@@ -124,6 +124,19 @@ public class GamePanel extends JPanel {
 		
 	}
 	
+	public void displayResults(int p1Score, int p2Score){
+		
+		Graphics g = panelImage.getGraphics();
+		String p1 = "Score: " + p1Score;
+		String p2 = "Score: " + p2Score;
+		g.setFont(new Font("Courier", Font.PLAIN, 50));
+		g.setColor(Color.black);
+		g.drawString(p1, width/8, height/2);
+		g.drawString(p2, width - width/4 - width/8, height/2);
+		
+		
+	}
+	
 	public void drawScores(){
 		Graphics g = panelImage.getGraphics();
 		String p1Score = "" + main.player1.getScore();
