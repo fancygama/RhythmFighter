@@ -139,6 +139,8 @@ public class GamePanel extends JPanel {
 		BufferedImage tutorialButtonImage = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
 		BufferedImage startButtonDepressed = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
 		BufferedImage tutorialButtonDepressed = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage quitButtonImage = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage quitButtonDepressed = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
 
 		try {
 			BufferedImage originalImage = ImageIO.read(new File("src/resources/menu.png"));
@@ -148,6 +150,8 @@ public class GamePanel extends JPanel {
 			tutorialButtonImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/tutorial.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
 			startButtonDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/startpush.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
 			tutorialButtonDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/tutorialpush.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			quitButtonImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/quit.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			quitButtonDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/quitpressed.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -166,6 +170,16 @@ public class GamePanel extends JPanel {
 		startButton.setPressedIcon(new ImageIcon(startButtonDepressed));
 		startButton.setOpaque(false);
 		
+		JButton quitButton = new JButton();
+		quitButton.setOpaque(false);
+		quitButton.setFocusable(false);
+		quitButton.setContentAreaFilled(false);
+		quitButton.setBorderPainted(false);
+		quitButton.setBounds(width/2 - width/8, height/2 + 2*height/6, width/4, height/6);
+		quitButton.setIcon(new ImageIcon(quitButtonImage));
+		quitButton.setPressedIcon(new ImageIcon(quitButtonDepressed));
+		quitButton.setOpaque(false);
+		
 		JButton tutorialButton = new JButton();
 		this.setLayout(null);
 		tutorialButton.setOpaque(false);
@@ -176,10 +190,14 @@ public class GamePanel extends JPanel {
 		tutorialButton.setIcon(new ImageIcon(tutorialButtonImage));
 		tutorialButton.setPressedIcon(new ImageIcon(tutorialButtonDepressed));
 		tutorialButton.setOpaque(false);
+		
 		startButton.addActionListener(new ButtonListener(0));
 		tutorialButton.addActionListener(new ButtonListener(-1));
+		quitButton.addActionListener(new ButtonListener(1));
+		
 		this.add(startButton);
 		this.add(tutorialButton);
+		this.add(quitButton);
 	}
 	
 	public void displaySongs(){
@@ -293,8 +311,7 @@ public class GamePanel extends JPanel {
 				main.enterSongSelect();
 				return;
 			} else if (choice == 1){
-				System.out.println("TheForce");
-				main.enterGamePhase("theforce");
+				main.quit();
 			} else if (choice == 2){
 				main.enterGamePhase("cherrypepsi");
 			}

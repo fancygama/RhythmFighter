@@ -2,6 +2,7 @@ package Core;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -72,6 +73,10 @@ public class Main extends Thread{
 		}
 	}
 	
+	public void quit(){
+		frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+	}
+	
 	public void startUpMenu(){
 		
 		gamePhase = 0;
@@ -85,7 +90,9 @@ public class Main extends Thread{
 		//set up the game's frame
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(frameWidth,frameHeight));
+		//frame.setPreferredSize(new Dimension(frameWidth,frameHeight));
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 	//goes fullscreen!
+		frame.setUndecorated(true);
 		backgroundLayer = new Background(frameWidth, frameHeight);
 		backgroundLayer.setOpaque(true);
 		backgroundLayer.setPreferredSize(new Dimension(frameWidth, frameHeight));
