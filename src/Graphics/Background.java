@@ -38,6 +38,16 @@ public class Background extends JPanel{
 		}
 	}
 	
+	public void setBackgroundResult(){
+		try {
+			BufferedImage originalImage = ImageIO.read(new File("src/resources/Results.png"));
+			backgroundImg.createGraphics().drawImage(originalImage, 0, 0, this.getWidth(), this.getHeight(), null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void paintComponent(Graphics g){
 		

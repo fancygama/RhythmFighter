@@ -219,7 +219,7 @@ public class Main extends Thread{
 		//set up the audio stuff
 		timer = new RhythmTimer(new SongPlayer("src/Resources/Tutorial.wav"), this);
 		SongPlayer.initNotesInTut();
-		beatsInSong = SongPlayer.notesInTutorial;
+		beatsInSong = SongPlayer.notesInSong;
 		tutorialOn = true;
 
 		//set up the players
@@ -242,11 +242,14 @@ public class Main extends Thread{
 
 	public void update(){	//main game loop updater
 
+		if (gameDone){
+			return;
+		}
 		songPos = timer.getSongPos();
 		//This should be implemented once the array is set up
 		panel.reset();
 
-		if (beatsInSong.size() != currBeat - 1){
+		if (beatsInSong.size() > currBeat - 1){
 
 			if (songPos - 100 - LAGCOMP <= beatsInSong.get(currBeat) && songPos + 100 >= beatsInSong.get(currBeat)){	//if the song is within +/- 100 ms of the next note
 				p1CanAtk = true;
@@ -266,8 +269,12 @@ public class Main extends Thread{
 					panel.getNotesOnScreen().remove(0);
 					//System.out.println("removed at " + songPos);
 				}
-				if (currBeat + 1 != beatsInSong.size())
-					currBeat++;
+				currBeat++;
+	  			if (currBeat >= beatsInSong.size()){
+	  				System.out.println("Wahoo!");
+	  				gameDone = true;
+	  				return;
+	  			}
 
 
 			}
@@ -360,9 +367,6 @@ public class Main extends Thread{
 			}
 
 
-		} else if (songPos >= timer.getSongLen()){
-			gameDone = true;
-			return;
 		}
 
 		if (flashFrame != -1){
@@ -436,23 +440,64 @@ public class Main extends Thread{
 		//System.out.println("This iteration started at " + songPos + " and ended at " + timer.getSongPos());
 
 	}
+	
+	public void startUpResults(){
+		
+		backgroundLayer.setBackgroundResult();
+		backgroundLayer.repaint();
+				
+		panel.removeAll();
+		panel.reset();
+		
+		BufferedImage startButtonImage = new BufferedImage(frameWidth/4, frameHeight/6, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage startButtonDepressed = new BufferedImage(frameWidth/4, frameHeight/6, BufferedImage.TYPE_INT_ARGB);
+		
+		try {
+			startButtonImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/return.png")), 0, 0, frameWidth/4, frameHeight/6, null);
+			startButtonDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/returnpush.png")), 0, 0, frameWidth/4, frameHeight/6, null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		JButton returnButton = new JButton();
+		returnButton.setOpaque(false);
+		returnButton.setFocusable(false);
+		returnButton.setContentAreaFilled(false);
+		returnButton.setBorderPainted(false);
+		returnButton.setBounds(frameWidth/2 - frameWidth/8, frameHeight/4*3, frameWidth/4, frameHeight/6);
+		returnButton.setIcon(new ImageIcon(startButtonImage));
+		returnButton.setPressedIcon(new ImageIcon(startButtonDepressed));
+		returnButton.setOpaque(false);
+		returnButton.addActionListener(new StartListener());
+
+		panel.add(returnButton);
+		panel.repaint();
+		
+		//load it up!
+		frame.validate();
+		frame.setVisible(true);
+		frame.pack();
+		
+		System.out.println("Did result screen");
+}
 
 
 	@Override
 	public void run(){
-
+		
 		startUpMenu();
-		Timer menuTimer = new Timer(16, null);
-		menuTimer.setInitialDelay(0);
-		menuTimer.start();
-
+//		Timer menuTimer = new Timer(16, null);
+//		menuTimer.setInitialDelay(0);
+//		menuTimer.start();
+		
 		while (gamePhase == 0){
 			try {
 				Main.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-
+			
 		}
 		menuMusic.getClip().stop();
 		if (gamePhase == 1){
@@ -479,15 +524,33 @@ public class Main extends Thread{
 				}
 			}
 		}
-
+		
 		Timer newTimer = new Timer(16, new RhythmListener(this));
 		newTimer.setInitialDelay(0);
 		newTimer.start();
 		timer.start();
 		System.out.println("Start time: " + timer.getSongPos());
-
-
-
+		while (!gameDone){
+			try {
+				Main.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println("Out of the loop");
+//		while (timer.getSongPos() < timer.getSongLen()){
+//			try {
+//				Main.sleep(10);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		}
+		timer.stop();
+		System.out.println("timer stopped");
+		startUpResults();
+		
+		
+		
 	}
 
 

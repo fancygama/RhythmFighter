@@ -18,7 +18,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class SongPlayer {
 
 	public static ArrayList<Long> notesInSong = new ArrayList<Long>();
-	public static ArrayList<Long> notesInTutorial = new ArrayList<Long>();
 	
 	private AudioInputStream audioIn;
 	private Clip songClip;
@@ -26,7 +25,7 @@ public class SongPlayer {
 public static void initNotesInTut(){
 		
 		for (int i = 3; i < 60000/500; i++){
-			notesInTutorial.add(((long)i)*500);
+			notesInSong.add(((long)i)*500);
 			//System.out.println("beat " + (i - 2) + ": " + notesInTutorial.get(notesInTutorial.size() - 1));
 		}
 		

@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 public class Animations {
 	static double ovrLength = 75 / (Math.sqrt(1902*1902+1033*1033));
 	static double ovrXOff = 825/1902.0;
-	static double ovrYOff = 600/1033.0;
+	static double ovrYOff = 700/1033.0;
 	public static void punch(GamePanel panel, double stage, boolean p1, boolean curTurn, Color color)
 	{
 		boolean combo = (color!=color.white && curTurn);
