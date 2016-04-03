@@ -129,7 +129,7 @@ public class GamePanel extends JPanel {
 		String p1Score = "" + main.player1.getScore();
 		String p2Score = "" + main.player2.getScore();
 		g.setColor(Color.white);
-		g.setFont(new Font("TimesRoman", Font.PLAIN, 100));
+		g.setFont(new Font("Courier", Font.PLAIN, 100));
 		g.drawString(p1Score, width/10, 3*height/10 + height/20);
 		g.drawString(p2Score, width - width/10, 3*height/10 + height/20);
 	}
