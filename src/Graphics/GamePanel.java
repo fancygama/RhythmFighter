@@ -172,6 +172,55 @@ public class GamePanel extends JPanel {
 		this.add(tutorialButton);
 	}
 	
+//	public void displaySongs(){
+//		BufferedImage theforceImage = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
+//		BufferedImage cherrypepsiImage = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
+//		BufferedImage theforceDepressed = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
+//		BufferedImage cherrypepsiDepressed = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
+//
+//		try {
+//			BufferedImage originalImage = ImageIO.read(new File("src/resources/songs.png"));
+//			panelImage.createGraphics().drawImage(originalImage, 0, 0, width, height, null);
+//			
+//			theforceImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/theforcebutton.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+//			cherrypepsiImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/cherrypepsibutton.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+//			theforceDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/theforcebuttonpressed.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+//			cherrypepsiDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/cherrypepsibuttonpressed.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+//			
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			System.out.println("Menu Background failed to load");
+//		}
+//		
+//		JButton theforceButton = new JButton();
+//		this.setLayout(null);
+//		theforceButton.setOpaque(false);
+//		theforceButton.setFocusable(false);
+//		theforceButton.setContentAreaFilled(false);
+//		theforceButton.setBorderPainted(false);
+//		theforceButton.setBounds(width/2 - width/8, height/3, width/4, height/6);
+//		theforceButton.setIcon(new ImageIcon(theforceImage));
+//		theforceButton.setPressedIcon(new ImageIcon(theforceDepressed));
+//		theforceButton.setOpaque(false);
+//		theforceButton.addActionListener(new ButtonListener(1));
+//		
+//		JButton cherrypepsiButton = new JButton();
+//		this.setLayout(null);
+//		cherrypepsiButton.setOpaque(false);
+//		cherrypepsiButton.setFocusable(false);
+//		cherrypepsiButton.setContentAreaFilled(false);
+//		cherrypepsiButton.setBorderPainted(false);
+//		cherrypepsiButton.setBounds(width/2 - width/8, height/3 + height/6, width/4, height/6);
+//		cherrypepsiButton.setIcon(new ImageIcon(cherrypepsiImage));
+//		cherrypepsiButton.setPressedIcon(new ImageIcon(cherrypepsiDepressed));
+//		cherrypepsiButton.setOpaque(false);
+//		theforceButton.addActionListener(new ButtonListener(1));
+//		cherrypepsiButton.addActionListener(new ButtonListener(2));
+//		this.add(theforceButton);
+//		this.add(cherrypepsiButton);
+//	}
+	
 	public void addBackground(){	//also resets the frame
 		Random rand = new Random();
 		currBackground = rand.nextInt(2);
