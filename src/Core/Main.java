@@ -134,12 +134,12 @@ public class Main extends Thread{
 
 	public void startUpSongSelect(){
 
-		try {
-			Main.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			Main.sleep(1000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		panel.removeAll();
 		panel.reset();
 		panel.displaySongs();
