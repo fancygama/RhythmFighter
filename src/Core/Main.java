@@ -231,7 +231,7 @@ public class Main extends Thread{
 		player1 = new Player();
 		player2 = new Player();
 
-		backgroundLayer.setBackground();
+		backgroundLayer.setBackgroundTut();
 		backgroundLayer.repaint();
 
 		frame.addKeyListener(new InListener(this));
