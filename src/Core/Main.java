@@ -27,36 +27,36 @@ public class Main extends Thread{
 	public GamePanel panel;	//the game panel
 	public JFrame frame;	//the game frame
 	public Background backgroundLayer;	//displays the background
-	public int frameWidth;
-	public int frameHeight;
-	public static int LAGCOMP = 50;
+	public int frameWidth;	//width of the frame
+	public int frameHeight;	//height of the frame
+	
+	public static int LAGCOMP = 50;	//compensation for video lag. approx. 50 ms early.
 
-	//the menu's song stuff
-	private SongPlayer menuMusic;
-	//the game's song stuff. The audio player and the current position of the song.
-	private RhythmTimer timer;
-	private long songPos;
-	private String songName;
+	private SongPlayer menuMusic;	//the player that plays the menu music
+	private RhythmTimer timer;	//the class that takes care of playing the game music.
+	private long songPos;	//current position of the song in ms
+	private String songName;	//name of the file that the song is contained in (no extension)
+	
 	//the classes containing the information of each player
 	public Player player1;
 	public Player player2;
+	
 	//booleans that indicate what each player can do and whether or not the game is over
-	private boolean gameDone = false;
-	private boolean tutorialOn = false;
-	public boolean atkWindow = false;
-	public boolean p1CanAtk = false;
-	public boolean p2CanAtk = false;
+	private boolean gameDone = false;	//whether or not the song chart is over
+	public boolean atkWindow = false;	//not actually used anymore
+	public boolean p1CanAtk = false;	//whether or not player1 can input commands
+	public boolean p2CanAtk = false;	//whether or not player2 can input commands
 
-	public long p1LastHitOffset;	//the amount that player1's last hit was off the mark in ms
-	public long p2LastHitOffset; //the amt player2's last hit was off the mark in ms
-	public int p1ComboFlag = 0;
-	public int p2ComboFlag = 0;
+	public long p1LastHitOffset;	//the amount that player1's last hit was off the mark in ms. default is >200
+	public long p2LastHitOffset; //the amt player2's last hit was off the mark in ms. default is >200
+	public int p1ComboFlag = 0;	//is 1 if the player has an unredeemed combo finisher
+	public int p2ComboFlag = 0;	//same
 
-	public ArrayList<Long> beatsInSong;
-	public int currBeat = 0;
-	public int currBeatAdd = 0;
-	public int lastBeatp1 = -1;
-	public int lastBeatp2 = -1;
+	public ArrayList<Long> beatsInSong;	//a list of the millisecond positions of each note in the song
+	public int currBeat = 0;	//the index of the next note to be played
+	public int currBeatAdd = 0;	//the index of the next note to be added to the screen.
+	public int lastBeatp1 = -1;	//the index of the last beat the player hit.
+	public int lastBeatp2 = -1;	//the index of the last beat the player hit.
 
 	private double curAnimProg = 0; // progress of current animation (from 0 to 2pi)
 	private Anim curAnim = Anim.p1Punch; // current animation in progress (all are the same if curAnimProg = 0)
@@ -64,6 +64,7 @@ public class Main extends Thread{
 	private Color p1Color = Color.white;
 	private Color p2Color = Color.white;
 
+	public int tutorialMode = 0;
 	private int flashFrame = -1;
 	private int greatFrame = -1;
 	private int gamePhase;
@@ -220,12 +221,13 @@ public class Main extends Thread{
 	}
 
 	public void startUpTut(){	//startup process for the tutorial
-
+		
+		tutorialMode = 1;
 		//set up the audio stuff
 		timer = new RhythmTimer(new SongPlayer("src/Resources/Tutorial.wav"), this);
 		SongPlayer.initNotesInTut();
 		beatsInSong = SongPlayer.notesInSong;
-		tutorialOn = true;
+		//tutorialOn = true;
 
 		//set up the players
 		player1 = new Player();
@@ -276,7 +278,7 @@ public class Main extends Thread{
 				}
 				currBeat++;
 	  			if (currBeat >= beatsInSong.size()){
-	  				System.out.println("Wahoo!");
+	  				//System.out.println("Wahoo!");
 	  				gameDone = true;
 	  				return;
 	  			}
@@ -476,8 +478,7 @@ public class Main extends Thread{
 		returnButton.setOpaque(false);
 		returnButton.addActionListener(new StartListener());
 		
-		panel.displayResults(player1.getScore(), player2.getScore());
-
+		backgroundLayer.displayResults(player1.getScore(), player2.getScore());
 		panel.add(returnButton);
 		panel.repaint();
 		
@@ -486,7 +487,7 @@ public class Main extends Thread{
 		frame.setVisible(true);
 		frame.pack();
 		
-		System.out.println("Did result screen");
+		//System.out.println("Did result screen");
 }
 
 
@@ -540,7 +541,7 @@ public class Main extends Thread{
 		newTimer.setInitialDelay(0);
 		newTimer.start();
 		timer.start();
-		System.out.println("Start time: " + timer.getSongPos());
+		//System.out.println("Start time: " + timer.getSongPos());
 		while (!gameDone){
 			try {
 				Main.sleep(100);
@@ -548,7 +549,7 @@ public class Main extends Thread{
 				e.printStackTrace();
 			}
 		}
-		System.out.println("Out of the loop");
+		//System.out.println("Out of the loop");
 //		while (timer.getSongPos() < timer.getSongLen()){
 //			try {
 //				Main.sleep(10);
@@ -557,17 +558,25 @@ public class Main extends Thread{
 //			}
 //		}
 		timer.stop();
-		System.out.println("timer stopped");
+		newTimer.stop();
+		//System.out.println("timer stopped");
 		startUpResults();
 		gamePhase = 0;
 		gameDone = false;
-		
+		tutorialMode = 0;
+		int currFrame = 5;
 		while(gamePhase == 0){
 			try {
-				Main.sleep(100);
+				Main.sleep(30);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			panel.reset();
+			panel.drawWinner(currFrame);
+			panel.repaint();
+			currFrame--;
+			if (currFrame < 0)
+				currFrame = 5;
 		}
 		panel.removeAll();
 		continue;

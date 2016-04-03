@@ -2,6 +2,7 @@ package Graphics;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -66,6 +67,19 @@ public class Background extends JPanel{
 		gg.drawRect(this.width/20, this.height/10, 5, this.height/10);
 		gg.drawRect(this.width - this.width/20, this.height/10, 5, this.height/10);
 		this.repaint();
+	}
+	
+	public void displayResults(int p1Score, int p2Score){
+		
+		Graphics g = backgroundImg.getGraphics();
+		String p1 = "Score: " + p1Score;
+		String p2 = "Score: " + p2Score;
+		g.setFont(new Font("Courier", Font.PLAIN, 50));
+		g.setColor(Color.black);
+		g.drawString(p1, width/8, height/2);
+		g.drawString(p2, width - width/4 - width/8, height/2);
+		repaint();
+		
 	}
 
 	public void setBackgroundTut() {

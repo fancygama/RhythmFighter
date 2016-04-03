@@ -137,14 +137,34 @@ public class GamePanel extends JPanel {
 		
 	}
 	
+	public void drawWinner(int frame){
+		
+		try {
+			BufferedImage originalImage = ImageIO.read(new File("src/resources/winner/winner" + frame + ".png"));
+			if (main.player1.getScore() > main.player2.getScore())
+				panelImage.createGraphics().drawImage(originalImage, width/8, height/2 + height/10, width/5, height/10, null);
+			if (main.player2.getScore() > main.player1.getScore())
+				panelImage.createGraphics().drawImage(originalImage, width - width/4 - width/8, height/2 + height/10, width/5, height/10, null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public void drawScores(){
 		Graphics g = panelImage.getGraphics();
 		String p1Score = "" + main.player1.getScore();
 		String p2Score = "" + main.player2.getScore();
 		g.setColor(Color.white);
 		g.setFont(new Font("Courier", Font.PLAIN, 100));
+		if (main.tutorialMode == 0){
 		g.drawString(p1Score, width/10, 3*height/10 + height/20);
 		g.drawString(p2Score, width - width/10, 3*height/10 + height/20);
+		} else {
+			g.drawString(p1Score, width/10, height - height/10);
+			g.drawString(p2Score, width - width/10, height - height/10);
+		}
 	}
 	
 	public void displayMenu(){
