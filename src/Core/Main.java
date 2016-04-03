@@ -28,20 +28,25 @@ public class Main extends Thread{
 	private RhythmTimer timer;
 	private long songPos;
 	//the classes containing the information of each player
-	private Player player1;
-	private Player player2;
+	public Player player1;
+	public Player player2;
 	//booleans that indicate what each player can do and whether or not the game is over
 	private boolean gameDone = false;
 	private boolean tutorialOn = false;
+	public boolean atkWindow = false;
 	public boolean p1CanAtk = false;
 	public boolean p2CanAtk = false;
 	
 	public long p1LastHitOffset;	//the amount that player1's last hit was off the mark in ms
 	public long p2LastHitOffset; //the amt player2's last hit was off the mark in ms
+	public int p1ComboFlag = 0;
+	public int p2ComboFlag = 0;
 	
 	public ArrayList<Long> beatsInSong;
-	private int currBeat = 0;
-	private int currBeatAdd = 0;
+	public int currBeat = 0;
+	public int currBeatAdd = 0;
+	public int lastBeatp1 = -1;
+	public int lastBeatp2 = -1;
 	
 	private double curAnimProg = 0; // progress of current animation (from 0 to 2pi)
 	private Anim curAnim = Anim.p1Punch; // current animation in progress (all are the same if curAnimProg = 0)
@@ -53,18 +58,20 @@ public class Main extends Thread{
 	public void playerAttacked(int player, int move){
 		if (player == 1){
 			p1CanAtk = false;	//the player can no longer attack
-			player1.setLastMove(move);
+			lastBeatp1 = currBeat;
+			p1ComboFlag = player1.setLastMove(move);
 			if (move == 1) curAnim = Anim.p1Punch;
 			else if (move == 2) curAnim = Anim.p1Kick;
 			curAnimProg = 2 * Math.PI / speed;
-			p1LastHitOffset = Math.abs(SongPlayer.notesInSong.get(0) - timer.getSongPos());
+			p1LastHitOffset = Math.abs(SongPlayer.notesInSong.get(currBeat) - timer.getSongPos());
 		} else {
 			p2CanAtk = false;
-			player2.setLastMove(move);
+			lastBeatp2 = currBeat;
+			p2ComboFlag = player2.setLastMove(move);
 			if (move == 1) curAnim = Anim.p2Punch;
 			else if (move == 2) curAnim = Anim.p2Kick;
 			curAnimProg = 2 * Math.PI / speed;
-			p2LastHitOffset = Math.abs(SongPlayer.notesInSong.get(0) - timer.getSongPos());
+			p2LastHitOffset = Math.abs(SongPlayer.notesInSong.get(currBeat) - timer.getSongPos());
 		}
 	}
 	
@@ -75,8 +82,8 @@ public class Main extends Thread{
 		frameWidth = gd.getDisplayMode().getWidth();
 		frameHeight = gd.getDisplayMode().getHeight();
 		
-		//menuMusic = new SongPlayer("src/resources/Menu.wav");
-		//menuMusic.getClip().loop(Clip.LOOP_CONTINUOUSLY);
+		menuMusic = new SongPlayer("src/resources/menumusic.wav");
+		menuMusic.getClip().loop(Clip.LOOP_CONTINUOUSLY);
 		
 		//set up the game's frame
 		frame = new JFrame();
@@ -86,10 +93,12 @@ public class Main extends Thread{
 		backgroundLayer.setOpaque(true);
 		backgroundLayer.setPreferredSize(new Dimension(frameWidth, frameHeight));
 		backgroundLayer.setBounds(0,0,frameWidth,frameHeight);
+		backgroundLayer.setFocusable(false);
 		backgroundLayer.setLayout(null);
 		frame.add(backgroundLayer);
 		//add in the panel to display everything
 		panel = new GamePanel(frameWidth, frameHeight, this);
+		panel.setFocusable(false);
 		panel.setOpaque(false);
 		backgroundLayer.add(panel);
 		panel.displayMenu();
@@ -110,7 +119,7 @@ public class Main extends Thread{
 	public void startUp(){	//the startup process for the game
 		
 		//set up the audio stuff
-		timer = new RhythmTimer(new SongPlayer("src/Resources/Song.wav"), this);
+		timer = new RhythmTimer(new SongPlayer("src/Resources/cherrypepsi.wav"), this);
 		SongPlayer.initNotesInSong();
 		beatsInSong = SongPlayer.notesInSong;
 		
@@ -165,12 +174,12 @@ public class Main extends Thread{
 		panel.reset();
 
 	if (beatsInSong.size() != currBeat - 1){
-	
-		  if (songPos - 100 <= beatsInSong.get(currBeat) && songPos + 100 >= beatsInSong.get(currBeat)){	//if the song is within +/- 100 ms of the next note
-		  		p1CanAtk = true;	//the players can use moves
-		  		p2CanAtk = true;
+			
+		  if (songPos - 50 <= beatsInSong.get(currBeat) && songPos + 50 >= beatsInSong.get(currBeat)){	//if the song is within +/- 100 ms of the next note
+		  		atkWindow = true;
 		  		
-		  		
+		  } else {
+			  atkWindow = false;
 		  }
 		  System.out.print("Evaluating for " + beatsInSong.get(currBeat) + ". ");
 		  if (songPos - 20 >= beatsInSong.get(currBeat) /*&& songPos + 20 >= beatsInSong.get(currBeat)*/){	//if the song is within +/- 10 ms of the next note
@@ -181,7 +190,9 @@ public class Main extends Thread{
 	  				panel.getNotesOnScreen().remove(0);
 	  			System.out.println("removed at " + songPos);
 	  			}
+	  			
 	  			currBeat++;
+	  			
 
 	  		}
 		  
@@ -195,6 +206,34 @@ public class Main extends Thread{
 				//System.out.println("Current: " + beatsInSong.get(currBeat));
 		  			//or something like that
 		  	}
+		  
+		  if (songPos + 50 >= beatsInSong.get(currBeat)){	//it's time to see who won!
+			  if (p1LastHitOffset < 100 || p2LastHitOffset < 100){
+				  if (p1LastHitOffset < p2LastHitOffset && player1.getLastMove() != Player.BLOCK){
+					  //p1 is the winner! here's where we add visuals to represent this
+					  player1.incScore(10);
+					  player2.setLastMove(Player.NONE);
+					  if (p1ComboFlag != 0){
+						  player1.incScore(10);
+						  //combo! here's where we add visuals to represent this
+						  p1ComboFlag = 0;
+						  player1.setLastMove(Player.NONE);
+					  }
+				  } else if (p2LastHitOffset < p1LastHitOffset && player2.getLastMove() != Player.BLOCK){
+					//p1 is the winner! here's where we add visuals to represent this
+					  player2.incScore(10);
+					  player1.setLastMove(Player.NONE);
+					  if (p2ComboFlag != 0){
+						  player2.incScore(10);
+						  //combo! here's where we add visuals to represent this
+						  p2ComboFlag = 0;
+						  player2.setLastMove(Player.NONE);
+					  }
+				  }
+			  }
+		  }
+		  
+		  
 	} else if (songPos >= timer.getSongLen()){
 		gameDone = true;
 		return;
@@ -227,8 +266,8 @@ public class Main extends Thread{
 	}
 	if (curAnimProg != 0) curAnimProg += 2 * Math.PI / speed;
 	if (curAnimProg >= 2* Math.PI) curAnimProg = 0;
-	  //panel.drawBackground();		//for once we have a background
 	  panel.drawNoteLanes();
+	  panel.drawScores();
 	  panel.updateNotes(songPos);
 	  //and then animation updates etc etc
 	  
@@ -263,7 +302,7 @@ public class Main extends Thread{
 			}
 			
 		}
-		
+		menuMusic.getClip().stop();
 		if (gamePhase == 1){
 			startUp();
 		} else {

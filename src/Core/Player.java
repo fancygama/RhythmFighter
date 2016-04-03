@@ -25,6 +25,14 @@ public class Player {
 		score += amt;
 	}
 	
+	public int getLastMove(){
+		return prev2Moves[1];
+	}
+	
+	public int getScore(){
+		return score;
+	}
+	
 	public int setLastMove(int move){	//returns an int other than 0 if a combo is triggered
 		
 		for (int i = 0; i < COMBOS.length; i++){

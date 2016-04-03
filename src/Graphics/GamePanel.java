@@ -3,6 +3,7 @@ package Graphics;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -121,6 +122,16 @@ public class GamePanel extends JPanel {
 		}
 		
 		
+	}
+	
+	public void drawScores(){
+		Graphics g = panelImage.getGraphics();
+		String p1Score = "" + main.player1.getScore();
+		String p2Score = "" + main.player2.getScore();
+		g.setColor(Color.white);
+		g.setFont(new Font("TimesRoman", Font.PLAIN, 100));
+		g.drawString(p1Score, width/10, 3*height/10 + height/20);
+		g.drawString(p2Score, width - width/10, 3*height/10 + height/20);
 	}
 	
 	public void displayMenu(){

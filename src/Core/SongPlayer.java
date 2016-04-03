@@ -39,7 +39,7 @@ public static void initNotesInTut(){
 		Charset charset = Charset.forName("UTF-8");
 		BufferedReader reader = null;
 		try {
-			reader = Files.newBufferedReader(FileSystems.getDefault().getPath("src","resources", "songchart" + ".txt"), charset);
+			reader = Files.newBufferedReader(FileSystems.getDefault().getPath("src","resources", "cherrypepsi" + ".txt"), charset);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
