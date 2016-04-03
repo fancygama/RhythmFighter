@@ -220,59 +220,5 @@ public class Animations {
 		panel.repaint();
 	}
 	
-	public static void main(String[] args) throws FontFormatException, IOException
-	{
-		try {
-		     GraphicsEnvironment ge = 
-		         GraphicsEnvironment.getLocalGraphicsEnvironment();
-		     ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("comic.ttf")));
-		} catch (FontFormatException e) {
-		     //Handle exception
-		}
-		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		int frameWidth = gd.getDisplayMode().getWidth();
-		int frameHeight = gd.getDisplayMode().getHeight();
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(frameWidth,frameHeight));
-		//add in the panel to display everything
-		GamePanel panel = new GamePanel(frameWidth, frameHeight);
-		frame.add(panel);
-		frame.validate();
-		frame.setVisible(true);
-		frame.pack();
-		while (true)
-		{
-			int precision = 10;
-			for (int i = 1; i <= precision ; i++)
-			{
-				double stage = 2 * Math.PI / precision * i;
-				panel.reset();
-				punch(panel,stage,true,true);
-				punch(panel,stage,true,false);
-				try {
-					Thread.sleep(33);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-			for (int i = 1; i <= precision ; i++)
-			{
-				double stage = 2 * Math.PI / precision * i;
-				panel.reset();
-				punch(panel,0,true,true);
-				punch(panel,0,true,false);
-				try {
-					Thread.sleep(33);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-		}
-	}
 
 }
