@@ -184,11 +184,11 @@ public class Main extends Thread{
 		  //System.out.print("Evaluating for " + beatsInSong.get(currBeat) + ". ");
 		  if (songPos - 20 >= beatsInSong.get(currBeat) /*&& songPos + 20 >= beatsInSong.get(currBeat)*/){	//if the song is within +/- 10 ms of the next note
 	  			//A beat is happening now!
-	  			System.out.println(" Beat happened");
+	  			//System.out.println(" Beat happened");
 	  			//panel.flashBackground();
 	  			if (panel.getNotesOnScreen().size() != 0){
 	  				panel.getNotesOnScreen().remove(0);
-	  			System.out.println("removed at " + songPos);
+	  			//System.out.println("removed at " + songPos);
 	  			}
 	  			
 	  			currBeat++;
@@ -200,7 +200,7 @@ public class Main extends Thread{
 		  		
 			  //panel.getNotesOnScreen().add(frameWidth/2);
 			  	panel.getNotesOnScreen().add(beatsInSong.get(currBeatAdd));
-		  		System.out.println("added at " + songPos + " compared to " + timer.getSongPos() + ". Added for " + beatsInSong.get(currBeatAdd));
+		  		//System.out.println("added at " + songPos + " compared to " + timer.getSongPos() + ". Added for " + beatsInSong.get(currBeatAdd));
 		  		currBeatAdd++;
 				//System.out.println("SongPos: " + songPos);
 				//System.out.println("Current: " + beatsInSong.get(currBeat));
@@ -226,11 +226,6 @@ public class Main extends Thread{
 					//p1 is the winner! here's where we add visuals to represent this
 					  if (player2.getLastMove() == Player.PUNCH) curAnim =Anim.p2Punch;
 					  else if (player2.getLastMove() == Player.KICK) curAnim =Anim.p2Kick;
-					  else if (player2.getLastMove()== Player.BLOCK)
-					  {
-						  if (player1.getLastMove() == Player.PUNCH) curAnim = Anim.p1PunchBlock;
-						  else if (player1.getLastMove() == Player.KICK) curAnim = Anim.p1KickBlock;
-					  }
 					  player2.incScore(10);
 					  player1.setLastMove(Player.NONE);
 					  if (p2ComboFlag != 0){
@@ -245,12 +240,16 @@ public class Main extends Thread{
 				  {
 					  if (player2.getLastMove() == Player.PUNCH) curAnim = Anim.p2PunchBlock;
 					  else if (player2.getLastMove() == Player.KICK) curAnim = Anim.p2KickBlock;
+					  else curAnim = Anim.p2PunchBlock;
+					  player2.setLastMove(Player.NONE);
 					  curAnimProg = 2 * Math.PI / speed;
 				  }
 				  else if (p2LastHitOffset < p1LastHitOffset && player2.getLastMove()== Player.BLOCK)
 				  {
 					  if (player1.getLastMove() == Player.PUNCH) curAnim = Anim.p1PunchBlock;
 					  else if (player1.getLastMove() == Player.KICK) curAnim = Anim.p1KickBlock;
+					  else curAnim = Anim.p1PunchBlock;
+					  player1.setLastMove(Player.NONE);
 					  curAnimProg = 2 * Math.PI / speed;
 				  }
 				  p1LastHitOffset = 200;
@@ -359,7 +358,7 @@ public class Main extends Thread{
 		newTimer.setInitialDelay(0);
 		newTimer.start();
 		timer.start();
-		System.out.println("Start time: " + timer.getSongPos());
+		//System.out.println("Start time: " + timer.getSongPos());
 		
 		
 		

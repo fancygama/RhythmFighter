@@ -29,7 +29,7 @@ public static void initNotesInTut(){
 		
 		for (int i = 3; i < 60000/500; i++){
 			notesInTutorial.add(((long)i)*500);
-			System.out.println("beat " + (i - 2) + ": " + notesInTutorial.get(notesInTutorial.size() - 1));
+			//System.out.println("beat " + (i - 2) + ": " + notesInTutorial.get(notesInTutorial.size() - 1));
 		}
 		
 		
@@ -50,7 +50,7 @@ public static void initNotesInTut(){
 		String line = null;
 	    try {
 			while ((line = reader.readLine()) != null){
-				System.out.println(line);
+				//System.out.println(line);
 				notesInSong.add(Long.parseLong(line));
 			}
 		} catch (IOException e) {

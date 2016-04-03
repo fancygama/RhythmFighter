@@ -22,7 +22,7 @@ public class InListener implements KeyListener{
 	public void keyPressed(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		int key = arg0.getKeyCode();
-		System.out.println("Pressed");
+		//System.out.println("Pressed");
 		switch (key){
 		
 		case p1Punch:
