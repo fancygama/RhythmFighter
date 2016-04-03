@@ -28,6 +28,7 @@ public class Main extends Thread{
 	//the game's song stuff. The audio player and the current position of the song.
 	private RhythmTimer timer;
 	private long songPos;
+	private String songName;
 	//the classes containing the information of each player
 	public Player player1;
 	public Player player2;
@@ -103,19 +104,47 @@ public class Main extends Thread{
 		frame.pack();
 	}
 	
+	public void enterSongSelect() {
+		// TODO Auto-generated method stub
+		gamePhase = 3;
+	}
+	
+	public void startUpSongSelect(){
+		
+		try {
+			Main.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		panel.removeAll();
+		panel.reset();
+		panel.displaySongs();
+		panel.repaint();
+		
+		frame.validate();
+	}
+	
 	public void enterTutPhase(){
+		songName = "Tutorial";
 		gamePhase = 2;
 	}
 	
-	public void enterGamePhase(){
+	public void setSongName(String song){
+		songName = song;
+	}
+	
+	
+	public void enterGamePhase(String song){
+		songName = song;
 		gamePhase = 1;
 	}
 	
-	public void startUp(){	//the startup process for the game
+public void startUp(){	//the startup process for the game
 		
 		//set up the audio stuff
-		timer = new RhythmTimer(new SongPlayer("src/Resources/cherrypepsi.wav"), this);
-		SongPlayer.initNotesInSong();
+		timer = new RhythmTimer(new SongPlayer("src/Resources/" + songName + ".wav"), this);
+		SongPlayer.initNotesInSong(songName);
 		beatsInSong = SongPlayer.notesInSong;
 		
 		//set up the players
@@ -343,7 +372,6 @@ public class Main extends Thread{
 			try {
 				Main.sleep(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -351,14 +379,26 @@ public class Main extends Thread{
 		menuMusic.getClip().stop();
 		if (gamePhase == 1){
 			startUp();
-		} else {
+		} else if (gamePhase == 2){
 			startUpTut();
+		} else if (gamePhase == 3){
+			startUpSongSelect();
+			gamePhase = 0;
+			while (gamePhase == 0){
+				try {
+					Main.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			startUp();
 		}
+		
 		Timer newTimer = new Timer(16, new RhythmListener(this));
 		newTimer.setInitialDelay(0);
 		newTimer.start();
 		timer.start();
-		//System.out.println("Start time: " + timer.getSongPos());
+		System.out.println("Start time: " + timer.getSongPos());
 		
 		
 		

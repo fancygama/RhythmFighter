@@ -165,7 +165,6 @@ public class GamePanel extends JPanel {
 		startButton.setIcon(new ImageIcon(startButtonImage));
 		startButton.setPressedIcon(new ImageIcon(startButtonDepressed));
 		startButton.setOpaque(false);
-		startButton.addActionListener(new ButtonListener(1));
 		
 		JButton tutorialButton = new JButton();
 		this.setLayout(null);
@@ -177,60 +176,61 @@ public class GamePanel extends JPanel {
 		tutorialButton.setIcon(new ImageIcon(tutorialButtonImage));
 		tutorialButton.setPressedIcon(new ImageIcon(tutorialButtonDepressed));
 		tutorialButton.setOpaque(false);
-		startButton.addActionListener(new ButtonListener(1));
-		tutorialButton.addActionListener(new ButtonListener(2));
+		startButton.addActionListener(new ButtonListener(0));
+		tutorialButton.addActionListener(new ButtonListener(-1));
 		this.add(startButton);
 		this.add(tutorialButton);
 	}
 	
-//	public void displaySongs(){
-//		BufferedImage theforceImage = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
-//		BufferedImage cherrypepsiImage = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
-//		BufferedImage theforceDepressed = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
-//		BufferedImage cherrypepsiDepressed = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
-//
-//		try {
-//			BufferedImage originalImage = ImageIO.read(new File("src/resources/songs.png"));
-//			panelImage.createGraphics().drawImage(originalImage, 0, 0, width, height, null);
-//			
-//			theforceImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/theforcebutton.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
-//			cherrypepsiImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/cherrypepsibutton.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
-//			theforceDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/theforcebuttonpressed.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
-//			cherrypepsiDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/cherrypepsibuttonpressed.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
-//			
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			System.out.println("Menu Background failed to load");
-//		}
-//		
-//		JButton theforceButton = new JButton();
-//		this.setLayout(null);
-//		theforceButton.setOpaque(false);
-//		theforceButton.setFocusable(false);
-//		theforceButton.setContentAreaFilled(false);
-//		theforceButton.setBorderPainted(false);
-//		theforceButton.setBounds(width/2 - width/8, height/3, width/4, height/6);
-//		theforceButton.setIcon(new ImageIcon(theforceImage));
-//		theforceButton.setPressedIcon(new ImageIcon(theforceDepressed));
-//		theforceButton.setOpaque(false);
-//		theforceButton.addActionListener(new ButtonListener(1));
-//		
-//		JButton cherrypepsiButton = new JButton();
-//		this.setLayout(null);
-//		cherrypepsiButton.setOpaque(false);
-//		cherrypepsiButton.setFocusable(false);
-//		cherrypepsiButton.setContentAreaFilled(false);
-//		cherrypepsiButton.setBorderPainted(false);
-//		cherrypepsiButton.setBounds(width/2 - width/8, height/3 + height/6, width/4, height/6);
-//		cherrypepsiButton.setIcon(new ImageIcon(cherrypepsiImage));
-//		cherrypepsiButton.setPressedIcon(new ImageIcon(cherrypepsiDepressed));
-//		cherrypepsiButton.setOpaque(false);
-//		theforceButton.addActionListener(new ButtonListener(1));
-//		cherrypepsiButton.addActionListener(new ButtonListener(2));
-//		this.add(theforceButton);
-//		this.add(cherrypepsiButton);
-//	}
+	public void displaySongs(){
+		System.out.println("Hork");
+		BufferedImage theforceImage = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage cherrypepsiImage = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage theforceDepressed = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage cherrypepsiDepressed = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
+
+		try {
+			BufferedImage originalImage = ImageIO.read(new File("src/resources/songs.png"));
+			panelImage.createGraphics().drawImage(originalImage, 0, 0, width, height, null);
+			
+			theforceImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/theforcebutton.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			cherrypepsiImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/cherrypepsibutton.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			theforceDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/theforcebuttonpressed.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			cherrypepsiDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/cherrypepsibuttonpressed.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Menu Background failed to load");
+		}
+		
+		JButton theforceButton = new JButton();
+		this.setLayout(null);
+		theforceButton.setOpaque(false);
+		theforceButton.setFocusable(false);
+		theforceButton.setContentAreaFilled(false);
+		theforceButton.setBorderPainted(false);
+		theforceButton.setBounds(width/2 - width/8, height/3, width/4, height/6);
+		theforceButton.setIcon(new ImageIcon(theforceImage));
+		theforceButton.setPressedIcon(new ImageIcon(theforceDepressed));
+		theforceButton.setOpaque(false);
+		theforceButton.addActionListener(new SongSelectListener(1));
+		
+		JButton cherrypepsiButton = new JButton();
+		this.setLayout(null);
+		cherrypepsiButton.setOpaque(false);
+		cherrypepsiButton.setFocusable(false);
+		cherrypepsiButton.setContentAreaFilled(false);
+		cherrypepsiButton.setBorderPainted(false);
+		cherrypepsiButton.setBounds(width/2 - width/8, height/3 + height/6, width/4, height/6);
+		cherrypepsiButton.setIcon(new ImageIcon(cherrypepsiImage));
+		cherrypepsiButton.setPressedIcon(new ImageIcon(cherrypepsiDepressed));
+		cherrypepsiButton.setOpaque(false);
+		cherrypepsiButton.addActionListener(new SongSelectListener(2));
+		
+		this.add(theforceButton);
+		this.add(cherrypepsiButton);
+	}
 	
 	public void addBackground(){	//also resets the frame
 		Random rand = new Random();
@@ -275,17 +275,59 @@ public class GamePanel extends JPanel {
 				e.printStackTrace();
 			}
 			clip.start();
-			if (choice == 1){
+			if (choice == -1){
 				//start game
-				main.enterGamePhase();
-			} else {
 				main.enterTutPhase();
+			} else if (choice == 0){
+				main.enterSongSelect();
+				return;
+			} else if (choice == 1){
+				System.out.println("TheForce");
+				main.enterGamePhase("theforce");
+			} else if (choice == 2){
+				main.enterGamePhase("cherrypepsi");
 			}
 			
 		}
 		
 		
 		
+		
+	}
+	
+	public class SongSelectListener implements ActionListener{
+
+		private int choice;
+		
+		String soundName = "src/resources/buttonpress.wav";    
+		AudioInputStream audioInputStream;
+		Clip clip;
+		
+		public SongSelectListener(int choice){
+			this.choice = choice;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			try {
+				audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+				clip = AudioSystem.getClip();
+				clip.open(audioInputStream);
+				
+			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			clip.start();
+			if (choice == 1){
+				System.out.println("TheForce");
+				main.enterGamePhase("theforce");
+			} else if (choice == 2){
+				System.out.println("CherryPepsi");
+				main.enterGamePhase("cherrypepsi");
+			}
+		}
 		
 	}
 	

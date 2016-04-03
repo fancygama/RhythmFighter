@@ -19,9 +19,7 @@ public class SongPlayer {
 
 	public static ArrayList<Long> notesInSong = new ArrayList<Long>();
 	public static ArrayList<Long> notesInTutorial = new ArrayList<Long>();
-	private static int tutBPM = 120;
 	
-	private String songPath = "src/Resources/Song.wav";
 	private AudioInputStream audioIn;
 	private Clip songClip;
 	
@@ -35,11 +33,11 @@ public static void initNotesInTut(){
 		
 	}
 	
-	public static void initNotesInSong(){
+	public static void initNotesInSong(String songName){
 		Charset charset = Charset.forName("UTF-8");
 		BufferedReader reader = null;
 		try {
-			reader = Files.newBufferedReader(FileSystems.getDefault().getPath("src","resources", "cherrypepsi" + ".txt"), charset);
+			reader = Files.newBufferedReader(FileSystems.getDefault().getPath("src","resources", songName + ".txt"), charset);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
