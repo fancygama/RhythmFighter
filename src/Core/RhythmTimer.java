@@ -38,14 +38,11 @@ public class RhythmTimer extends Thread{
 			songTime = songPos;
 			
 			//main.update();
-			if (!(songPos + 5 >= songTime) && !(songPos - 5 <= songTime)){
+			/*if (!(songPos + 5 >= songTime) && !(songPos - 5 <= songTime)){
 				songTime = songPos;
-			}
-			
-			
-			
+			}*/
 			try {
-				RhythmTimer.sleep(2);
+				RhythmTimer.sleep(1);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

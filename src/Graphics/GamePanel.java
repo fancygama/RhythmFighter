@@ -5,10 +5,26 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
+import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import Core.Main;
 
 public class GamePanel extends JPanel {
 
@@ -16,20 +32,24 @@ public class GamePanel extends JPanel {
 	private int width, height;
 	private ArrayList<Long> notesOnScreen;
 	private int pixPerUpdate;
+	private Main main;
 	
-	public GamePanel(int width, int height){
+	private int currBackground;
+	
+	public GamePanel(int width, int height, Main main){
 		
 		this.setBounds(0,0,width,height);	//this just forces the panel to be at this place.
 		this.width = width;
 		this.height = height;
 		notesOnScreen = new ArrayList<Long>();
+		this.main = main;
 		init();
 	}
 	
 	public void init(){
 		
 		this.setOpaque(true);
-		panelImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);	//init the bufferedimage
+		panelImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);	//init the bufferedimage
 		pixPerUpdate = (int) (((double)(width/2 - width/20) / 1000.0) * 10);
 		
 		
@@ -47,7 +67,7 @@ public class GamePanel extends JPanel {
 		//g.setColor(Color.white);
 		//g.fillRect(0, 0, width, height);
 		//g.setColor(temp);
-		panelImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
+		panelImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		//panelImage.getGraphics().fillRect(0, 0, width, height);
 	}
 	
@@ -103,8 +123,108 @@ public class GamePanel extends JPanel {
 		
 	}
 	
+	public void displayMenu(){
+		BufferedImage startButtonImage = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage tutorialButtonImage = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage startButtonDepressed = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage tutorialButtonDepressed = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
+
+		try {
+			BufferedImage originalImage = ImageIO.read(new File("src/resources/menu.png"));
+			panelImage.createGraphics().drawImage(originalImage, 0, 0, width, height, null);
+			
+			startButtonImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/start.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			tutorialButtonImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/tutorial.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			startButtonDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/startpush.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			tutorialButtonDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/tutorialpush.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Menu Background failed to load");
+		}
+		
+		JButton startButton = new JButton();
+		this.setLayout(null);
+		startButton.setOpaque(false);
+		startButton.setContentAreaFilled(false);
+		startButton.setBorderPainted(false);
+		startButton.setBounds(width/2 - width/8, height/2, width/4, height/6);
+		startButton.setIcon(new ImageIcon(startButtonImage));
+		startButton.setPressedIcon(new ImageIcon(startButtonDepressed));
+		startButton.setOpaque(false);
+		startButton.addActionListener(new ButtonListener(1));
+		
+		JButton tutorialButton = new JButton();
+		this.setLayout(null);
+		tutorialButton.setOpaque(false);
+		tutorialButton.setContentAreaFilled(false);
+		tutorialButton.setBorderPainted(false);
+		tutorialButton.setBounds(width/2 - width/8, height/2 + height/6, width/4, height/6);
+		tutorialButton.setIcon(new ImageIcon(tutorialButtonImage));
+		tutorialButton.setPressedIcon(new ImageIcon(tutorialButtonDepressed));
+		tutorialButton.setOpaque(false);
+		startButton.addActionListener(new ButtonListener(1));
+		tutorialButton.addActionListener(new ButtonListener(2));
+		this.add(startButton);
+		this.add(tutorialButton);
+	}
+	
+	public void addBackground(){	//also resets the frame
+		Random rand = new Random();
+		currBackground = rand.nextInt(2);
+		try {
+			BufferedImage originalImage = ImageIO.read(new File("src/resources/background" + currBackground + ".png"));
+			panelImage.createGraphics().drawImage(originalImage, 0, 0, width, height, null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 	
 	
+	
+	
+	public class ButtonListener implements ActionListener{
+		
+		private int choice;
+		
+		String soundName = "src/resources/buttonpress.wav";    
+		AudioInputStream audioInputStream;
+		Clip clip;
+		
+		public ButtonListener(int i){
+			choice = i;
+			
+			
+		}
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			try {
+				audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+				clip = AudioSystem.getClip();
+				clip.open(audioInputStream);
+				
+			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			clip.start();
+			if (choice == 1){
+				//start game
+				main.enterGamePhase();
+			} else {
+				main.enterTutPhase();
+			}
+			
+		}
+		
+		
+		
+		
+	}
 	
 }

@@ -81,6 +81,10 @@ public static void initNotesInTut(){
 		
 	}
 	
+	public Clip getClip(){
+		return songClip;
+	}
+	
 	public long getSomeLong(){
 		return 10000;
 	}

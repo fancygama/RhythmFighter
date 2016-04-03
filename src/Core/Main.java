@@ -3,9 +3,12 @@ import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
+import java.util.Random;
 
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 
+import Graphics.Background;
 import Graphics.GamePanel;
 
 public class Main extends Thread{
@@ -13,8 +16,12 @@ public class Main extends Thread{
 	//the game's display window stuff
 	public GamePanel panel;	//the game panel
 	public JFrame frame;	//the game frame
+	public Background backgroundLayer;	//displays the background
 	public int frameWidth;
 	public int frameHeight;
+	
+	//the menu's song stuff
+	private SongPlayer menuMusic;
 	//the game's song stuff. The audio player and the current position of the song.
 	private RhythmTimer timer;
 	private long songPos;
@@ -34,6 +41,8 @@ public class Main extends Thread{
 	private int currBeat = 0;
 	private int currBeatAdd = 0;
 	
+	private int gamePhase;
+	
 	//used by InListener to establish what should happen when a key is hit.
 	public void playerAttacked(int player, int move){
 		if (player == 1){
@@ -47,6 +56,44 @@ public class Main extends Thread{
 		}
 	}
 	
+	public void startUpMenu(){
+		
+		gamePhase = 0;
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		frameWidth = gd.getDisplayMode().getWidth();
+		frameHeight = gd.getDisplayMode().getHeight();
+		
+		//menuMusic = new SongPlayer("src/resources/Menu.wav");
+		//menuMusic.getClip().loop(Clip.LOOP_CONTINUOUSLY);
+		
+		//set up the game's frame
+		frame = new JFrame();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setPreferredSize(new Dimension(frameWidth,frameHeight));
+		backgroundLayer = new Background(frameWidth, frameHeight);
+		backgroundLayer.setOpaque(true);
+		backgroundLayer.setPreferredSize(new Dimension(frameWidth, frameHeight));
+		backgroundLayer.setBounds(0,0,frameWidth,frameHeight);
+		backgroundLayer.setLayout(null);
+		frame.add(backgroundLayer);
+		//add in the panel to display everything
+		panel = new GamePanel(frameWidth, frameHeight, this);
+		panel.setOpaque(false);
+		backgroundLayer.add(panel);
+		panel.displayMenu();
+		
+		frame.validate();
+		frame.setVisible(true);
+		frame.pack();
+	}
+	
+	public void enterTutPhase(){
+		gamePhase = 2;
+	}
+	
+	public void enterGamePhase(){
+		gamePhase = 1;
+	}
 	
 	public void startUp(){	//the startup process for the game
 		
@@ -59,22 +106,16 @@ public class Main extends Thread{
 		player1 = new Player();
 		player2 = new Player();
 		
-		//get the resolution of the main monitor
-		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-		frameWidth = gd.getDisplayMode().getWidth();
-		frameHeight = gd.getDisplayMode().getHeight();
-		
-		//set up the game's frame
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(frameWidth,frameHeight));
 		//add in the panel to display everything
-		panel = new GamePanel(frameWidth, frameHeight);
-		frame.add(panel);
 		frame.addKeyListener(new InListener(this));
+			
+		backgroundLayer.setBackground();
+		backgroundLayer.repaint();
+				
+		panel.removeAll();
+		panel.reset();
 		panel.drawNoteLanes();
 		//load it up!
-		//panel.drawALine();	//this was just a test thing anyway
 		frame.validate();
 		frame.setVisible(true);
 		frame.pack();
@@ -82,7 +123,7 @@ public class Main extends Thread{
 		
 	}
 	
-	public void startUpTut(){
+	public void startUpTut(){	//startup process for the tutorial
 		
 		//set up the audio stuff
 				timer = new RhythmTimer(new SongPlayer("src/Resources/Tutorial.wav"), this);
@@ -93,31 +134,19 @@ public class Main extends Thread{
 				//set up the players
 				player1 = new Player();
 				player2 = new Player();
-				
-				//get the resolution of the main monitor
-				GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-				frameWidth = gd.getDisplayMode().getWidth();
-				frameHeight = gd.getDisplayMode().getHeight();
-				
-				//set up the game's frame
-				JFrame frame = new JFrame();
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.setPreferredSize(new Dimension(frameWidth,frameHeight));
-				//add in the panel to display everything
 			
-				panel = new GamePanel(frameWidth, frameHeight);
-				frame.add(panel);
 				frame.addKeyListener(new InListener(this));
+				panel.removeAll();
+				panel.reset();
 				panel.drawNoteLanes();
 				//load it up!
-				//panel.drawALine();	//this was just a test thing anyway
 				frame.validate();
 				frame.setVisible(true);
 				frame.pack();
 		
 	}
 	
-	public void update(){
+	public void update(){	//main game loop updater
 
 		songPos = timer.getSongPos();
 		//This should be implemented once the array is set up
@@ -171,50 +200,11 @@ public class Main extends Thread{
 	}
 
 	
-	public void loop(){
+	public void menuLoop(){	//loop for the menu.
 		
-		songPos = timer.getSongPos();
-			//This should be implemented once the array is set up
-		panel.reset();
-
-		if (beatsInSong.size() != currBeat - 1){
-		
-			  if (songPos - 100 <= beatsInSong.get(currBeat) && songPos + 100 >= beatsInSong.get(currBeat)){	//if the song is within +/- 100 ms of the next note
-			  		p1CanAtk = true;	//the players can use moves
-			  		p2CanAtk = true;
-			  		if (songPos - 15 <= beatsInSong.get(currBeat) && songPos + 15 >= beatsInSong.get(currBeat)){	//if the song is within +/- 10 ms of the next note
-			  			//A beat is happening now!
-			  			System.out.println(" Beat happened");
-			  			panel.flashBackground();
-			  			currBeat++;
-			  			if (panel.getNotesOnScreen().size() != 0){
-			  			panel.getNotesOnScreen().remove(0);
-			  			//beatsInSong.remove(0);	//remove that note from the arrays, as it just happened.
-			  			}
-			  		}
-			  }
-			  
-			//	This should also be implemented once the array is set up
-			  if (songPos + 10 >= beatsInSong.get(currBeat + 1) - 1000 && songPos - 10 <= beatsInSong.get(currBeat + 1) - 1000){	//adds a new beat to the panel if it's time
-			  		//panel.getNotesOnScreen().add(frameWidth/2);
-				  	panel.getNotesOnScreen().add(beatsInSong.get(currBeat + 1));
-			  		System.out.println("added");
-					System.out.println("SongPos: " + songPos);
-					System.out.println("Current: " + beatsInSong.get(currBeat));
-			  			//or something like that
-			  	}
-		} else if (songPos >= timer.getSongLen()){
-			gameDone = true;
-			return;
-		}
-		 
-		
-		//Update graphics and stuff here
-		  //panel.drawBackground();		//for once we have a background
-		  panel.drawNoteLanes();
-		  panel.updateNotes(songPos);
-		  //and then animation updates etc etc
-		
+	}
+	
+	public void resultsLoop(){
 		
 	}
 	
@@ -222,8 +212,26 @@ public class Main extends Thread{
 	@Override
 	public void run(){
 		
-		//startUpTut();
-		startUp();
+		startUpMenu();
+		Timer menuTimer = new Timer(16, new MenuListener(this));
+		menuTimer.setInitialDelay(0);
+		menuTimer.start();
+		
+		while (gamePhase == 0){
+			try {
+				Main.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		if (gamePhase == 1){
+			startUp();
+		} else {
+			startUpTut();
+		}
 		Timer newTimer = new Timer(16, new RhythmListener(this));
 		newTimer.setInitialDelay(0);
 		newTimer.start();
