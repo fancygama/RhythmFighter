@@ -365,42 +365,42 @@ public void startUp(){	//the startup process for the game
 	switch (curAnim){
 	case p1Punch: {
 		Animations.punch(panel, curAnimProg, true, true, p1Color);
-		Animations.punch(panel, curAnimProg, true, false, p2Color);
+		Animations.punch(panel, curAnimProg, true, false, p1Color);
 		break;
 	}
 	case p1Kick: {
 		Animations.kick(panel, curAnimProg, true, true, p1Color);
-		Animations.kick(panel, curAnimProg, true, false, p2Color);
+		Animations.kick(panel, curAnimProg, true, false, p1Color);
 		break;
 	}
 	case p2Punch: {
 		Animations.punch(panel, curAnimProg, false, true,  p2Color);
-		Animations.punch(panel, curAnimProg, false, false, p1Color);
+		Animations.punch(panel, curAnimProg, false, false, p2Color);
 		break;
 	}
 	case p2Kick: {
 		Animations.kick(panel, curAnimProg, false, true,  p2Color);
-		Animations.kick(panel, curAnimProg, false, false, p1Color);
+		Animations.kick(panel, curAnimProg, false, false, p2Color);
 		break;
 	}
 	case p1PunchBlock: {
 		Animations.punchBlock(panel, curAnimProg, true, true, p1Color);
-		Animations.punchBlock(panel, curAnimProg, true, false,  p2Color);
+		Animations.punchBlock(panel, curAnimProg, true, false,  p1Color);
 		break;
 	}
 	case p1KickBlock: {
 		Animations.kickBlock(panel, curAnimProg, true, true, p1Color);
-		Animations.kickBlock(panel, curAnimProg, true, false,  p2Color);
+		Animations.kickBlock(panel, curAnimProg, true, false,  p1Color);
 		break;
 	}
 	case p2PunchBlock: {
 		Animations.punchBlock(panel, curAnimProg, false, true,  p2Color);
-		Animations.punchBlock(panel, curAnimProg, false, false,p1Color);
+		Animations.punchBlock(panel, curAnimProg, false, false,p2Color);
 		break;
 	}
 	case p2KickBlock: {
 		Animations.kickBlock(panel, curAnimProg, false, true,  p2Color);
-		Animations.kickBlock(panel, curAnimProg, false, false,p1Color);
+		Animations.kickBlock(panel, curAnimProg, false, false,p2Color);
 		break;
 	}
 	default:
