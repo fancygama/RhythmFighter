@@ -2,11 +2,7 @@ package Graphics;
 
 import java.awt.*;
 import java.awt.image.*;
-import java.io.File;
-import java.io.IOException;
 import java.lang.Math;
-
-import javax.swing.JFrame;
 
 public class Animations {
 	static double ovrLength = 75 / (Math.sqrt(1902*1902+1033*1033));
@@ -14,7 +10,7 @@ public class Animations {
 	static double ovrYOff = 700/1033.0;
 	public static void punch(GamePanel panel, double stage, boolean p1, boolean curTurn, Color color)
 	{
-		boolean combo = (color!=color.white && curTurn);
+		boolean combo = (color!=Color.white && curTurn);
 		BufferedImage b = panel.getImage();
 		double length = ovrLength * (Math.sqrt(b.getHeight()*b.getHeight()+b.getWidth()*b.getWidth()));
 		double xOff = b.getWidth() * ovrXOff;
@@ -72,14 +68,13 @@ public class Animations {
 			xCoords[19] = (int)(xCoords[18] - .1* length);
 			yCoords[19] = (int)(yCoords[18] + .2 * length);
 		}
-		int powDiam = 0;
 		g.setFont(new Font("comic", Font.PLAIN, 0));
 		if (!curTurn)
 		{
 			if (tempStage >= .4 * Math.PI)
 			{
 				double curLength =  length * (tempStage-.4*Math.PI);
-				if (color != color.white) curLength *= 2;
+				if (color != Color.white) curLength *= 2;
 				xCoords[4] -= .25* curLength;
 				xCoords[5] -= .4* curLength;
 				xCoords[2] -=  .4*curLength;
@@ -90,7 +85,6 @@ public class Animations {
 				yCoords[3] -=  .25 *curLength;
 				yCoords[6] -=  .125 *curLength;
 				yCoords[7] -= .25* curLength;
-				powDiam += curLength;
 				g.setFont(new Font("CourierNew", Font.PLAIN, (int)(curLength/10)));
 				}
 		}
@@ -122,7 +116,7 @@ public class Animations {
 		g.drawLine(xCoords[1], yCoords[1], xCoords[11], yCoords[11]);
 		g.drawLine(xCoords[11], yCoords[11], xCoords[12], yCoords[12]);
 		g.drawLine(xCoords[12], yCoords[12], xCoords[13], yCoords[13]);
-		if (color!=color.white)
+		if (color!=Color.white)
 		{
 			for (int i = 14; i <= 18; i++)
 			{
@@ -139,7 +133,7 @@ public class Animations {
 	
 	public static void kick(GamePanel panel, double stage, boolean p1, boolean curTurn, Color color)
 	{
-		boolean combo = (color!=color.white && curTurn);
+		boolean combo = (color!=Color.white && curTurn);
 		BufferedImage b = panel.getImage();
 		double length = ovrLength * (Math.sqrt(b.getHeight()*b.getHeight()+b.getWidth()*b.getWidth()));
 		double xOff = b.getWidth() * ovrXOff;
@@ -201,14 +195,12 @@ public class Animations {
 			xCoords[19] = (int)(xCoords[18] - .1* length);
 			yCoords[19] = (int)(yCoords[18] + .2 * length);
 		}
-		int powDiam = 0;
-		g.setFont(new Font("TimesRoman", Font.PLAIN, 0));
 		if (!curTurn)
 		{
 			if (tempStage >= .5*Math.PI)
 			{
 				double curLength = length * (tempStage-.5*Math.PI);
-				if (color != color.white) curLength *= 2;
+				if (color != Color.white) curLength *= 2;
 				xCoords[4] += .25* curLength;
 				xCoords[5] += .4* curLength;
 				yCoords[4] += .1* curLength;
@@ -224,8 +216,6 @@ public class Animations {
 				xCoords[11] -= .125 * curLength;
 				xCoords[12] -= .125 * curLength;
 				xCoords[13] -= .125 * curLength;
-				powDiam += curLength;
-				g.setFont(new Font("TimesRoman", Font.PLAIN, (int)(curLength/10)));
 				}
 		}
 		if (!curTurn)
@@ -255,7 +245,7 @@ public class Animations {
 		g.drawLine(xCoords[1], yCoords[1], xCoords[11], yCoords[11]);
 		g.drawLine(xCoords[11], yCoords[11], xCoords[12], yCoords[12]);
 		g.drawLine(xCoords[12], yCoords[12], xCoords[13], yCoords[13]);
-		if (color!=color.white)
+		if (color!=Color.white)
 		{
 			for (int i = 14; i <= 18; i++)
 			{
@@ -313,8 +303,6 @@ public class Animations {
 		yCoords[6] = (int)(yCoords[4]-.25*Math.sqrt(2.0)*length  +  length*Math.abs(stage-.75*Math.PI) );
 		xCoords[7] = (int)(xCoords[6] + .5*Math.sqrt(2.0)* length);
 		yCoords[7] = (int)(yCoords[6] - .5*Math.sqrt(2.0)*length);
-		int powDiam = 0;
-		g.setFont(new Font("comic", Font.PLAIN, 0));
 		if (!curTurn)
 		{
 			if (tempStage >= Math.PI)
@@ -324,8 +312,6 @@ public class Animations {
 				yCoords[7] -= .1 * curLength;
 				xCoords[3] -= .2* curLength;
 				yCoords[3] -= .2 * curLength;
-				powDiam += curLength;
-				g.setFont(new Font("CourierNew", Font.PLAIN, (int)(curLength/10)));
 				}
 		}
 		if (!curTurn)
@@ -409,7 +395,6 @@ public class Animations {
 		xCoords[3] -= .75*length*Math.abs(stage-Math.PI);
 		xCoords[6] -= .25*length*Math.abs(stage-Math.PI);
 		xCoords[7] -= .5*length*Math.abs(stage-Math.PI);
-		int powDiam = 0;
 		g.setFont(new Font("TimesRoman", Font.PLAIN, 0));
 		if (!curTurn)
 		{
@@ -424,7 +409,6 @@ public class Animations {
 				xCoords[11] -= .25 * curLength;
 				xCoords[12] -= .4 * curLength;
 				xCoords[13] -= .4 * curLength;
-				powDiam += curLength;
 				g.setFont(new Font("TimesRoman", Font.PLAIN, (int)(curLength/10)));
 		}
 		if (!curTurn)

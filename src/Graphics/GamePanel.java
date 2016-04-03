@@ -27,12 +27,12 @@ import javax.swing.JPanel;
 
 import Core.Main;
 
+@SuppressWarnings("serial")
 public class GamePanel extends JPanel {
 
 	private BufferedImage panelImage;
 	private int width, height;
 	private ArrayList<Long> notesOnScreen;
-	private int pixPerUpdate;
 	private Main main;
 	
 	private int currBackground;
@@ -51,7 +51,6 @@ public class GamePanel extends JPanel {
 		
 		this.setOpaque(true);
 		panelImage = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);	//init the bufferedimage
-		pixPerUpdate = (int) (((double)(width/2 - width/20) / 1000.0) * 10);
 		
 		
 	}

@@ -13,6 +13,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class Background extends JPanel{
 
 	private BufferedImage backgroundImg;

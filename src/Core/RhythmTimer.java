@@ -6,13 +6,11 @@ public class RhythmTimer extends Thread{
 
 	
 	private SongPlayer song;
-	private Main main;
 	private long songTime;
 	
 	public RhythmTimer(SongPlayer song, Main main){
 		this.song = song;
 		songTime = 0;
-		this.main = main;
 	}
 	
 	public void startSong(){
