@@ -53,7 +53,8 @@ public class Main extends Thread{
 	private double curAnimProg = 0; // progress of current animation (from 0 to 2pi)
 	private Anim curAnim = Anim.p1Punch; // current animation in progress (all are the same if curAnimProg = 0)
 	public double speed = 10;
-
+	
+	private int flashFrame = -1;
 	private int gamePhase;
 	
 	//used by InListener to establish what should happen when a key is hit.
@@ -213,6 +214,7 @@ public void startUp(){	//the startup process for the game
 		  //System.out.print("Evaluating for " + beatsInSong.get(currBeat) + ". ");
 		  if (songPos - 20 >= beatsInSong.get(currBeat) /*&& songPos + 20 >= beatsInSong.get(currBeat)*/){	//if the song is within +/- 10 ms of the next note
 	  			//A beat is happening now!
+			  	flashFrame = 5;
 	  			//System.out.println(" Beat happened");
 	  			//panel.flashBackground();
 	  			if (panel.getNotesOnScreen().size() != 0){
@@ -292,6 +294,10 @@ public void startUp(){	//the startup process for the game
 		return;
 	}
 	 
+	if (flashFrame != -1){
+		panel.drawFlash(flashFrame);
+		flashFrame--;
+	}
 	
 	//Update graphics and stuff here
 	switch (curAnim){

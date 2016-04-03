@@ -245,7 +245,18 @@ public class GamePanel extends JPanel {
 		
 	}
 	
-	
+	public void drawFlash(int frame){
+		if (frame == -1){
+			return;
+		}
+		try {
+			BufferedImage originalImage = ImageIO.read(new File("src/resources/flash/flash" + frame + ".png"));
+			panelImage.createGraphics().drawImage(originalImage, width/2 - width/40, height/10, width/20, height/10, null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	
 	
