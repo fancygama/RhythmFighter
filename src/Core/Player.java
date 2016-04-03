@@ -37,10 +37,13 @@ public class Player {
 		
 		for (int i = 0; i < COMBOS.length; i++){
 			if (prev2Moves[0] == COMBOS[i][0] && prev2Moves[1] == COMBOS[i][1] && move == COMBOS[i][2]){
+				prev2Moves[0] = prev2Moves[1];
+				prev2Moves[1] = move;
 				return i + 1;
 			}
 		}
-		
+		prev2Moves[0] = prev2Moves[1];
+		prev2Moves[1] = move;
 		return 0;
 	}
 }
