@@ -36,7 +36,7 @@ public static void initNotesInTut(){
 		Charset charset = Charset.forName("UTF-8");
 		BufferedReader reader = null;
 		try {
-			reader = Files.newBufferedReader(FileSystems.getDefault().getPath("Resources", songName + ".txt"), charset);
+			reader = Files.newBufferedReader(FileSystems.getDefault().getPath("Resources/sounds/", songName + ".txt"), charset);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
