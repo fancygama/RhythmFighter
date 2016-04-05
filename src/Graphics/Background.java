@@ -32,7 +32,7 @@ public class Background extends JPanel{
 		rand.setSeed(System.currentTimeMillis());
 		currBackground = rand.nextInt(3);
 		try {
-			BufferedImage originalImage = ImageIO.read(new File("src/resources/background" + currBackground + ".png"));
+			BufferedImage originalImage = ImageIO.read(new File("Resources/background" + currBackground + ".png"));
 			backgroundImg.createGraphics().drawImage(originalImage, 0, 0, this.getWidth(), this.getHeight(), null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -42,7 +42,7 @@ public class Background extends JPanel{
 	
 	public void setBackgroundResult(){
 		try {
-			BufferedImage originalImage = ImageIO.read(new File("src/resources/Results.png"));
+			BufferedImage originalImage = ImageIO.read(new File("Resources/Results.png"));
 			backgroundImg.createGraphics().drawImage(originalImage, 0, 0, this.getWidth(), this.getHeight(), null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -86,7 +86,7 @@ public class Background extends JPanel{
 	public void setBackgroundTut() {
 		
 		try {
-			BufferedImage originalImage = ImageIO.read(new File("src/resources/tutorialbackground" + ".png"));
+			BufferedImage originalImage = ImageIO.read(new File("Resources/tutorialbackground" + ".png"));
 			backgroundImg.createGraphics().drawImage(originalImage, 0, 0, this.getWidth(), this.getHeight(), null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

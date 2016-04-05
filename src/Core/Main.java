@@ -116,7 +116,7 @@ public class Main extends Thread{
 	public void startUpMenu(){
 
 		gamePhase = 0;
-		menuMusic = new SongPlayer("src/resources/menumusic.wav");
+		menuMusic = new SongPlayer("Resources/menumusic.wav");
 		menuMusic.getClip().loop(Clip.LOOP_CONTINUOUSLY);
 		panel.displayMenu();
 		
@@ -126,8 +126,8 @@ public class Main extends Thread{
 		frame.setVisible(true);
 		frame.pack();
 	}
-
 	public void enterSongSelect() {
+		
 		// TODO Auto-generated method stub
 		gamePhase = 3;
 	}
@@ -166,7 +166,7 @@ public class Main extends Thread{
 	public void startUp(){	//the startup process for the game
 
 		//set up the audio stuff
-		timer = new RhythmTimer(new SongPlayer("src/Resources/" + songName + ".wav"), this);
+		timer = new RhythmTimer(new SongPlayer("Resources/" + songName + ".wav"), this);
 		SongPlayer.initNotesInSong(songName);
 		beatsInSong = SongPlayer.notesInSong;
 
@@ -188,8 +188,8 @@ public class Main extends Thread{
 		BufferedImage startButtonDepressed = new BufferedImage(frameWidth/4, frameHeight/6, BufferedImage.TYPE_INT_ARGB);
 
 		try {
-			startButtonImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/start.png")), 0, 0, frameWidth/4, frameHeight/6, null);
-			startButtonDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/startpush.png")), 0, 0, frameWidth/4, frameHeight/6, null);
+			startButtonImage.createGraphics().drawImage(ImageIO.read(new File("Resources/start.png")), 0, 0, frameWidth/4, frameHeight/6, null);
+			startButtonDepressed.createGraphics().drawImage(ImageIO.read(new File("Resources/startpush.png")), 0, 0, frameWidth/4, frameHeight/6, null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -222,7 +222,7 @@ public class Main extends Thread{
 		
 		tutorialMode = 1;
 		//set up the audio stuff
-		timer = new RhythmTimer(new SongPlayer("src/Resources/Tutorial.wav"), this);
+		timer = new RhythmTimer(new SongPlayer("Resources/Tutorial.wav"), this);
 		SongPlayer.initNotesInTut();
 		beatsInSong = SongPlayer.notesInSong;
 		//tutorialOn = true;
@@ -458,8 +458,8 @@ public class Main extends Thread{
 		BufferedImage startButtonDepressed = new BufferedImage(frameWidth/4, frameHeight/6, BufferedImage.TYPE_INT_ARGB);
 		
 		try {
-			startButtonImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/return.png")), 0, 0, frameWidth/4, frameHeight/6, null);
-			startButtonDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/returnpush.png")), 0, 0, frameWidth/4, frameHeight/6, null);
+			startButtonImage.createGraphics().drawImage(ImageIO.read(new File("Resources/return.png")), 0, 0, frameWidth/4, frameHeight/6, null);
+			startButtonDepressed.createGraphics().drawImage(ImageIO.read(new File("Resources/returnpush.png")), 0, 0, frameWidth/4, frameHeight/6, null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

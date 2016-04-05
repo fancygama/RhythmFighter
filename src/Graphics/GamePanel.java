@@ -139,7 +139,7 @@ public class GamePanel extends JPanel {
 	public void drawWinner(int frame){
 		
 		try {
-			BufferedImage originalImage = ImageIO.read(new File("src/resources/winner/winner" + frame + ".png"));
+			BufferedImage originalImage = ImageIO.read(new File("Resources/winner/winner" + frame + ".png"));
 			if (main.player1.getScore() > main.player2.getScore())
 				panelImage.createGraphics().drawImage(originalImage, width/8, height/2 + height/10, width/5, height/10, null);
 			if (main.player2.getScore() > main.player1.getScore())
@@ -175,15 +175,15 @@ public class GamePanel extends JPanel {
 		BufferedImage quitButtonDepressed = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
 
 		try {
-			BufferedImage originalImage = ImageIO.read(new File("src/resources/menu.png"));
+			BufferedImage originalImage = ImageIO.read(new File("Resources/menu.png"));
 			panelImage.createGraphics().drawImage(originalImage, 0, 0, width, height, null);
 			
-			startButtonImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/start.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
-			tutorialButtonImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/tutorial.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
-			startButtonDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/startpush.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
-			tutorialButtonDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/tutorialpush.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
-			quitButtonImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/quit.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
-			quitButtonDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/quitpressed.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			startButtonImage.createGraphics().drawImage(ImageIO.read(new File("Resources/start.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			tutorialButtonImage.createGraphics().drawImage(ImageIO.read(new File("Resources/tutorial.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			startButtonDepressed.createGraphics().drawImage(ImageIO.read(new File("Resources/startpush.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			tutorialButtonDepressed.createGraphics().drawImage(ImageIO.read(new File("Resources/tutorialpush.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			quitButtonImage.createGraphics().drawImage(ImageIO.read(new File("Resources/quit.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			quitButtonDepressed.createGraphics().drawImage(ImageIO.read(new File("Resources/quitpressed.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -241,15 +241,15 @@ public class GamePanel extends JPanel {
 		BufferedImage clipDepressed = new BufferedImage(this.getWidth()/4, this.getHeight()/6, BufferedImage.TYPE_INT_ARGB);
 
 		try {
-			BufferedImage originalImage = ImageIO.read(new File("src/resources/songs.png"));
+			BufferedImage originalImage = ImageIO.read(new File("Resources/songs.png"));
 			panelImage.createGraphics().drawImage(originalImage, 0, 0, width, height, null);
 			
-			theforceImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/theforcebutton.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
-			cherrypepsiImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/cherrypepsibutton.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
-			theforceDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/theforcebuttonpressed.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
-			cherrypepsiDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/cherrypepsibuttonpressed.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
-			clipImage.createGraphics().drawImage(ImageIO.read(new File("src/resources/clip.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
-			clipDepressed.createGraphics().drawImage(ImageIO.read(new File("src/resources/clippressed.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			theforceImage.createGraphics().drawImage(ImageIO.read(new File("Resources/theforcebutton.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			cherrypepsiImage.createGraphics().drawImage(ImageIO.read(new File("Resources/cherrypepsibutton.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			theforceDepressed.createGraphics().drawImage(ImageIO.read(new File("Resources/theforcebuttonpressed.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			cherrypepsiDepressed.createGraphics().drawImage(ImageIO.read(new File("Resources/cherrypepsibuttonpressed.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			clipImage.createGraphics().drawImage(ImageIO.read(new File("Resources/clip.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
+			clipDepressed.createGraphics().drawImage(ImageIO.read(new File("Resources/clippressed.png")), 0, 0, this.getWidth()/4, this.getHeight()/6, null);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -302,7 +302,7 @@ public class GamePanel extends JPanel {
 		Random rand = new Random();
 		currBackground = rand.nextInt(2);
 		try {
-			BufferedImage originalImage = ImageIO.read(new File("src/resources/background" + currBackground + ".png"));
+			BufferedImage originalImage = ImageIO.read(new File("Resources/background" + currBackground + ".png"));
 			panelImage.createGraphics().drawImage(originalImage, 0, 0, width, height, null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -316,7 +316,7 @@ public class GamePanel extends JPanel {
 			return;
 		}
 		try {
-			BufferedImage originalImage = ImageIO.read(new File("src/resources/flash/flash" + frame + ".png"));
+			BufferedImage originalImage = ImageIO.read(new File("Resources/flash/flash" + frame + ".png"));
 			panelImage.createGraphics().drawImage(originalImage, width/2 - width/40, height/10, width/20, height/10, null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -330,7 +330,7 @@ public class GamePanel extends JPanel {
 		
 		private int choice;
 		
-		String soundName = "src/resources/buttonpress.wav";    
+		String soundName = "Resources/buttonpress.wav";    
 		AudioInputStream audioInputStream;
 		Clip clip;
 		
@@ -375,7 +375,7 @@ public class GamePanel extends JPanel {
 
 		private int choice;
 		
-		String soundName = "src/resources/buttonpress.wav";    
+		String soundName = "Resources/buttonpress.wav";    
 		AudioInputStream audioInputStream;
 		Clip clip;
 		
@@ -414,9 +414,9 @@ public class GamePanel extends JPanel {
 		try {
 			BufferedImage originalImage;
 			if (playerFlag > 2){
-				originalImage = ImageIO.read(new File("src/resources/combo/combo" + greatFrame + ".png"));
+				originalImage = ImageIO.read(new File("Resources/combo/combo" + greatFrame + ".png"));
 			} else {
-				originalImage = ImageIO.read(new File("src/resources/great/great" + greatFrame + ".png"));
+				originalImage = ImageIO.read(new File("Resources/great/great" + greatFrame + ".png"));
 			}
 			if (playerFlag % 2 != 0){
 				panelImage.createGraphics().drawImage(originalImage, width/4, height/4, width/5, width/10, null);
